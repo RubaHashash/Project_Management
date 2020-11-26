@@ -15,10 +15,7 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
-            $table->string('activity_name');
-            $table->unsignedBigInteger('tasks_id');
-            $table->foreign('tasks_id')->references('id')->on('tasks')->onDelete('cascade');
-            $table->unsignedBigInteger('priority');
+            $table->string('name');
             $table->text('description')->nullable();
             $table->date('actual_start_date')->nullable();
             $table->date('actual_end_date')->nullable();
@@ -26,6 +23,14 @@ class CreateActivitiesTable extends Migration
             $table->date('planned_end_date');
             $table->decimal('actual_budget')->nullable();
             $table->decimal('planned_budget');
+            $table->unsignedBigInteger('milstone_id');
+            $table->foreign('milstone_id')->references('id')->on('milestones')->onDelete('cascade');
+            $table->unsignedBigInteger('worker_id')->nullable();
+            $table->foreign('worker_id')->references('id')->on('users')->onDelete('set null');
+            $table->unsignedBigInteger('activity_dep_id')->nullable();
+            $table->foreign('activity_dep_id')->references('id')->on('activities')->onDelete('set null');
+            $table->unsignedBigInteger('milestone_dep_id')->nullable();
+            $table->foreign('milestone_dep_id')->references('id')->on('milestones')->onDelete('set null');
             $table->timestamps();
         });
     }
