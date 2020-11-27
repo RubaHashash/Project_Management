@@ -25,12 +25,12 @@ import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.2.0";
 import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-
-import AdminLayout from "layouts/Admin.js";
 import RegisterLayout from "components/Authentication/RegisterLayout.js";
 import LoginLayout from "components/Authentication/LoginLayout.js";
+
+import AdminDashboard from "./AdminLayout/AdminDashboard";
+
 import CompanyForm from "components/CompanyForm.js";
-import Dashboard from "./views/Dashboard";
 
 const hist = createBrowserHistory();
 
@@ -41,10 +41,10 @@ ReactDOM.render(
       <Route path="/login" render={(props) => <LoginLayout {...props} />} />
       {/* <Redirect to="/login" /> */}
       <Route path="/register" render={(props) => <RegisterLayout {...props} />} />
+
+      <Route path="/admin" render={(props) => <AdminDashboard {...props} />} />
+
       <Route path="/company" render={(props) => <CompanyForm {...props} />} />
-
-
-      <Route path="/dashboard" render={(props) => <AdminLayout {...props} />} />
 
       {/* <Redirect to="/register" /> */}
     </Switch>
