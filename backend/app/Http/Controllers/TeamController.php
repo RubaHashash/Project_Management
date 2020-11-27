@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
+    private $pagination = 5;
+
     public function index()
     {
-        //
+        $teams = Team::with('company')->with('manager')->where('user_id', Auth::id())->latest()->simplePaginate($this->pagination);
+        return response()->json($expenses);
     }
 
     /**

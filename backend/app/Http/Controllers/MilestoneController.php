@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Milestone;
+use App\Models\User;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
 class MilestoneController extends Controller
 {
+    private $pagination = 5;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($project_id)
     {
-        //
+        //$user = User::findOrFail(request(Auth::id()));
+        $milestone = Milestone::where('project_id', $project_id)->latest()->simplePaginate($this->pagination);
+        return response()->json($milestone);
     }
 
     /**
@@ -104,7 +109,7 @@ class MilestoneController extends Controller
     {
         $milestone = Milstone::with('project')->findOrFail($request->id);
 
-        if(Auth::id() === $milestone->project->comapany->admin_id or Auth::id() === $milestone->project->team->manager_id){
+        if(Auth::id() === $milestone->project->company->admin_id or Auth::id() === $milestone->project->team->manager_id){
             $milestone->name = request('name');
             $milestone->priority = request('priority');
             $milestone->planned_start_date = request('planned_start_date');
@@ -135,7 +140,7 @@ class MilestoneController extends Controller
 
         $milestone = Project::with('project')->findOrFail($milestone->id);
 
-        if(Auth::id() === $milestone->project->comapany->admin_id or Auth::id() === $milestone->project->team->manager_id){
+        if(Auth::id() === $milestone->project->company->admin_id or Auth::id() === $milestone->project->team->manager_id){
             $success = Milestone::where('id',$milestone->id)->delete();
             return json_encode($success);
         }

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+    private $pagination = 5;
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +18,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $companies = Company::latest()->simplePaginate($this->pagination);
+        return response()->json($companies);
     }
 
     /**
