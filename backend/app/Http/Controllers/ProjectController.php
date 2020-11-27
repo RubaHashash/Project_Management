@@ -6,10 +6,12 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Team;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    private $pagination = 5;
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +19,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::where('company_id', Auth::user()->company_id)->latest()->simplePaginate($this->pagination);
+        return response()->json($projects);
     }
 
     /**

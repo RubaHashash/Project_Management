@@ -1,14 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Team;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
+    private $pagination = 5;
+
     public function index()
     {
-        //
+        $teams = Team::with('manager')->where('company_id', Auth::user()->company_id)->latest()->simplePaginate($this->pagination);
+        return response()->json($teams);
     }
 
     /**
