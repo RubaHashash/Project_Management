@@ -75,7 +75,7 @@ class Login extends React.Component{
       axios.post("/login",this.state).then(res => {
        console.log("logged in :",res);
        sessionStorage.setItem('loggedIn',true);
-       this.props.history.push('/dashboard');
+       this.props.history.push('/admin');
         
       }).catch(error=>{
         console.log(error);

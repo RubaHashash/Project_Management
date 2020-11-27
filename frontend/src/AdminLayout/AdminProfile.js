@@ -1,0 +1,258 @@
+
+import React from "react";
+
+// reactstrap components
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  FormGroup,
+  Form,
+  Input,
+  Row,
+  Col,
+} from "reactstrap";
+
+class User extends React.Component {
+  render() {
+    return (
+      <>
+        <div className="content">
+          <Row>
+            <Col md="4">
+              <Card className="card-user">
+                <div className="image">
+                  <img
+                    alt="..."
+                    src={require("assets/img/damir-bosnjak.jpg")}
+                  />
+                </div>
+                <CardBody>
+                  <div className="author">
+                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                      <img
+                        alt="..."
+                        className="avatar border-gray"
+                        src={require("assets/img/mike.jpg")}
+                      />
+                      <h5 className="title">Chet Faker</h5>
+                    </a>
+                    <p className="description">@chetfaker</p>
+                  </div>
+                  <p className="description text-center">
+                    "I like the way you work it <br />
+                    No diggity <br />I wanna bag it up"
+                  </p>
+                </CardBody>
+                <CardFooter>
+                  <hr />
+                  <div className="button-container">
+                    <Row>
+                      <Col className="ml-auto" lg="3" md="6" xs="6">
+                        <h5>
+                          12 <br />
+                          <small>Files</small>
+                        </h5>
+                      </Col>
+                      <Col className="ml-auto mr-auto" lg="4" md="6" xs="6">
+                        <h5>
+                          2GB <br />
+                          <small>Used</small>
+                        </h5>
+                      </Col>
+                      <Col className="mr-auto" lg="3">
+                        <h5>
+                          24,6$ <br />
+                          <small>Spent</small>
+                        </h5>
+                      </Col>
+                    </Row>
+                  </div>
+                </CardFooter>
+              </Card>
+            
+            </Col>
+            <Col md="8">
+              <Row>
+              <Card className="card-user">
+                <CardHeader>
+                  <CardTitle tag="h5">Edit Profile</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <Row>
+                      <Col className="pr-1" md="5">
+                        <FormGroup>
+                          <label>Company (disabled)</label>
+                          <Input
+                            defaultValue="Creative Code Inc."
+                            disabled
+                            placeholder="Company"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="px-1" md="3">
+                        <FormGroup>
+                          <label>Username</label>
+                          <Input
+                            defaultValue="michael23"
+                            placeholder="Username"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="pl-1" md="4">
+                        <FormGroup>
+                          <label htmlFor="exampleInputEmail1">
+                            Email address
+                          </label>
+                          <Input placeholder="Email" type="email" />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                    <FormGroup style={{marginLeft:"20px"}}>
+                      <label>Change profile picture</label>
+                    <Input type="file" accept="image/png, image/jpg" name="image" />
+                    </FormGroup>
+                    </Row>
+                    <Row>
+                    <Col className="pl-1" md="4">
+                      <a href="#" style={{marginLeft:"20px"}}> Change Password </a>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <div className="update ml-auto mr-auto">
+                        <Button
+                          className="btn-round"
+                          color="primary"
+                          type="submit"
+                        >
+                          Update 
+                        </Button>
+                      </div>
+                    </Row>
+                  </Form>
+                </CardBody>
+              </Card>
+              </Row>
+              <Row>
+              <Card className="card-user">
+                <CardHeader>
+                  <CardTitle tag="h5">Edit Company Profile</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <Row>
+                      <Col className="pr-1" md="5">
+                        <FormGroup>
+                          <label>Company name</label>
+                          <Input
+                            defaultValue="Creative Code Inc."
+                            // disabled
+                            placeholder="Company"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="px-1" md="4">
+                        <FormGroup>
+                          <label>Foundation Date</label>
+                          <Input
+                            defaultValue="michael23"
+                            placeholder="date"
+                            type="date"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row style={{marginLeft:"2px"}}>
+                    <Col className="px-1" md="4">
+                        <FormGroup>
+                          <label>Address</label>
+                          <Input
+                            defaultValue="michael23"
+                            placeholder="address"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="px-1" md="3">
+                        <FormGroup>
+                          <label>Country</label>
+                          <Input
+                            defaultValue="michael23"
+                            placeholder="county"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="px-1" md="3">
+                        <FormGroup>
+                          <label>City</label>
+                          <Input
+                            defaultValue="michael23"
+                            placeholder="city"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      </Row>
+                      <Row style={{marginLeft:"2px"}}>
+                      <Col className="pl-1" md="5">
+                        <FormGroup>
+                          <label htmlFor="exampleInputEmail1">
+                            Email address
+                          </label>
+                          <Input placeholder="Email" type="email" />
+                        </FormGroup>
+                      </Col>
+                      <Col className="px-1" md="4">
+                        <FormGroup>
+                          <label>Phone number</label>
+                          <Input
+                            defaultValue="michael23"
+                            placeholder=""
+                            type="number"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="px-1" md="4">
+                        <FormGroup>
+                          <label>Logo</label>
+                          <Input
+                            type="file"
+                          />
+                        </FormGroup>
+                      </Col>
+                      </Row>
+                    <Row>
+                      <div className="update ml-auto mr-auto">
+                        <Button
+                          className="btn-round"
+                          color="primary"
+                          type="submit"
+                        >
+                          Update 
+                        </Button>
+                      </div>
+                    </Row>
+                  </Form>
+                </CardBody>
+              </Card>
+              </Row>
+              
+            </Col>
+
+          </Row>
+        </div>
+      </>
+    );
+  }
+}
+
+export default User;

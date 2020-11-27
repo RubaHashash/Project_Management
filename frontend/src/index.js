@@ -29,7 +29,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import AdminLayout from "layouts/Admin.js";
 import RegisterLayout from "components/Authentication/RegisterLayout.js";
 import LoginLayout from "components/Authentication/LoginLayout.js";
-import Dashboard from "./views/Dashboard";
+import AdminDashboard from "./AdminLayout/AdminDashboard";
 const hist = createBrowserHistory();
 
 ReactDOM.render(
@@ -39,7 +39,7 @@ ReactDOM.render(
       <Route path="/login" render={(props) => <LoginLayout {...props} />} />
       {/* <Redirect to="/login" /> */}
       <Route path="/register" render={(props) => <RegisterLayout {...props} />} />
-      <Route path="/dashboard" render={(props) => <AdminLayout {...props} />} />
+      <Route path="/admin" render={(props) => <AdminDashboard {...props} />} />
       {/* <Redirect to="/register" /> */}
     </Switch>
   </Router>,
