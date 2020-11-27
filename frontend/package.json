@@ -10,6 +10,7 @@
     "ajv": "6.12.2",
     "axios": "^0.21.0",
     "bootstrap": "4.5.0",
+    "bootstrap4-toggle": "^3.6.1",
     "chart.js": "2.9.3",
     "history": "4.10.1",
     "jquery": "3.5.1",
@@ -56,5 +57,7 @@
   "devDependencies": {
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8"
-  }
+  },
+
+  "proxy": "http://localhost:8000"
 }
