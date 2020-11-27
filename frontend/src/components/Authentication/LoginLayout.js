@@ -31,13 +31,13 @@ class Login extends React.Component {
       redirect: true
     })
   }
+
   componentDidMount() {
     axios.get('/api/user').then(response => {
       console.log(response)
     }).catch(error => {
       console.log(error);
-    });
-  }
+    };
 
   renderRedirect = () => {
     if (this.state.redirect) {
@@ -67,58 +67,60 @@ class Login extends React.Component {
         passErr: 'Please enter your password',
       });
       error.push("Password error");
-
-    } else {
-      this.setState({
-        passErr: '',
-      });
-    }
-    axios.defaults.withCredentials = true;
+            
+      }else{
+          this.setState({
+              passErr: '',
+          });
+      }
+      // console.log(this.state.password);
+    axios.defaults.withCredentials=true;
     axios.get("/sanctum/csrf-cookie").then(response => {
-      axios.post("/login", this.state).then(res => {
-        console.log("logged in :", res);
-        sessionStorage.setItem('loggedIn', true);
-        this.props.history.push('/HomePage');
-
-      }).catch(error => {
+      axios.post("/login",this.state).then(res => {
+       console.log("logged in :",res);
+       sessionStorage.setItem('loggedIn',true);
+       this.props.history.push('/dashboard');
+        
+      }).catch(error=>{
         console.log(error);
       });
     });
 
   };
-  render() {
-    return (
-      <div className="App">
-        <Card className="card-user" style={{ width: "30%", marginLeft: "35%", marginTop: "100px" }}>
-          <Col md="12">
-            <CardHeader>
-              <CardTitle tag="h5">Sign in</CardTitle>
-            </CardHeader>
-            <CardBody>
-              <Form>
-                <Row>
-                  <Col className="pl-1" md="12">
-                    <FormGroup>
-                      <label>Email address</label>
-                      <Input placeholder="Email" type="email" />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className="pl-1" md="12">
-                    <FormGroup>
-                      <label>Password</label>
-                      <Input placeholder="Password" type="password" />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <div className="update ml-auto mr-auto">
-                    <Button
-                      className="btn-round"
-                      color="primary"
-                      type="submit">
-                      Login
+
+  render(){
+  return (
+    <div className="App">
+             <Card className="card-user" style={{width:"30%",marginLeft:"35%",marginTop:"100px"}}>     		
+		        	<Col md="12">
+                <CardHeader>
+                  <CardTitle tag="h5">Sign in</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Form onSubmit={this.onSubmit}>
+                    <Row>
+                      <Col className="pl-1" md="12">
+                        <FormGroup>
+                          <label>Email address</label>
+                          <Input placeholder="Email" name="email" onChange={this.handleChange} type="email" />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                    <Col className="pl-1" md="12">
+                        <FormGroup>
+                          <label>Password</label>
+                          <Input placeholder="Password" name="password" onChange={this.handleChange}  type="password" />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+					          <Row>
+                      <div className="update ml-auto mr-auto">
+                        <Button
+                          className="btn-round"
+                          color="primary"
+                          type="submit">
+                          Login
                         </Button>
                   </div>
                 </Row>
