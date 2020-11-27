@@ -1,5 +1,6 @@
 
 import React from "react";
+import axios from "axios";
 
 // reactstrap components
 import {
@@ -17,6 +18,31 @@ import {
 } from "reactstrap";
 
 class User extends React.Component {
+  
+  constructor(props){
+      super(props);
+      this.state={
+        teams:[],
+  }
+}
+  
+  componentDidMount() {
+
+    this.getTeams()
+  }
+
+  getTeams = ()=>{
+    axios.defaults.withCredentials=true;
+       axios.get('/api/teams').then((response)=>{
+          return response.data.teams;
+        }).then((team)=>{
+          console.log("reponse",team);
+
+          this.setState({
+           teams:team});
+        });
+  } 
+
   render() {
     return (
       <>
