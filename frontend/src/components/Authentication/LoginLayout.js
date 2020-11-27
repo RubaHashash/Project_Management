@@ -33,11 +33,8 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/user').then(response => {
-      console.log(response)
-    }).catch(error => {
-      console.log(error);
-    };
+
+  }
 
   renderRedirect = () => {
     if (this.state.redirect) {
