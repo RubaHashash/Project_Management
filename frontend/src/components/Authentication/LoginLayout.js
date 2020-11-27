@@ -76,7 +76,7 @@ class Login extends React.Component{
        console.log("logged in :",res);
        sessionStorage.setItem('loggedIn',true);
        this.props.history.push('/admin');
-        
+      
       }).catch(error=>{
         console.log(error);
       });
@@ -124,7 +124,7 @@ class Login extends React.Component{
           <p>Not Registered?
 							<a href="/register" style={{ marginLeft: "7px" }}>Create an account</a>
 						</p>
-                      </div>
+                  </div>
                     </Row>
 
                   </Form>

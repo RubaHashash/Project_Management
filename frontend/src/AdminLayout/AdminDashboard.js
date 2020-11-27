@@ -67,7 +67,6 @@ class AdminDashboard extends React.Component {
               );
             })}
           </Switch>
-         
         </div>
         {/* <Footer fluid /> */}
         {/* <FixedPlugin

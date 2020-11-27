@@ -24,7 +24,6 @@ import TableList from "views/Tables.js";
 import Maps from "views/Map.js";
 import UserPage from "views/User.js";
 import AdminProfile from "AdminLayout/AdminProfile"
-import CompanyProfile from "AdminLayout/CompanyProfile"
 import ManageEmployees from "AdminLayout/ManageEmployees"
 import UpgradeToPro from "views/Upgrade.js";
 var Adminroutes = [
@@ -49,13 +48,7 @@ var Adminroutes = [
     component: ManageEmployees,
     layout: "/admin",
   },
-  // {
-  //   path: "/CompanyProfile",
-  //   name: "Company Profile",
-  //   icon: "nc-icon nc-pin-3",
-  //   component: CompanyProfile,
-  //   layout: "/admin",
-  // },
+
   // {
   //   path: "/Projects",
   //   name: "Projects",
@@ -78,7 +71,7 @@ var Adminroutes = [
     component: Notifications,
     layout: "/admin",
   },
-  
+
 
   // {
   //   path: "/typography",
