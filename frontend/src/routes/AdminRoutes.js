@@ -53,7 +53,7 @@ var Adminroutes = [
   //   path: "/Projects",
   //   name: "Projects",
   //   icon: "nc-icon nc-bell-55",
-  //   component: Projects,
+  //   component: Icons,
   //   layout: "/admin",
   // },
 
