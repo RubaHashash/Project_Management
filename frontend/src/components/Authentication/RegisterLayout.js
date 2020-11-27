@@ -13,6 +13,7 @@ import {
     Input,
     Row,
     Col,
+    ButtonToggle,
   } from "reactstrap";
 
 class Register extends React.Component{
@@ -23,6 +24,7 @@ class Register extends React.Component{
       email: "",
       name:"",
     password: "",
+    isAdmin:false,
     password_confirmation:"",
     redirect:false
   }
@@ -40,16 +42,28 @@ class Register extends React.Component{
   handleChange = ({ target }) => {
     this.setState({ ...this.state, [target.name]: target.value });
   };
+  handleIsAdim =()=>{
+
+    this.setState({
+      isAdmin:!this.state.isAdmin
+    })
+    
+  }
   onSubmit = e => {
     e.preventDefault();
+    console.log(this.state.isAdmin);
     axios.defaults.withCredentials=true;
     axios.get("/sanctum/csrf-cookie").then(response => {
       axios.post("/register",this.state).then(res => {
         sessionStorage.setItem('loggedIn',true);
-        this.props.history.push('/HomePage');
+        if(this.state.isAdmin){
+        // this.props.history.push('/dashboard');
+        }
+        
         console.log(res.config['data']);
       });
     });
+
   };
   render(){
     return (
@@ -60,12 +74,12 @@ class Register extends React.Component{
              <CardTitle tag="h5">Sign up</CardTitle>
            </CardHeader>
            <CardBody>
-             <Form>
+             <Form onSubmit={this.onSubmit}>
              <Row>
                  <Col className="pl-1" md="12">
                    <FormGroup>
                      <label>Name</label>
-                     <Input placeholder="Name" type="text" />
+                     <Input placeholder="Name" name="name" onChange={this.handleChange} type="text" />
                    </FormGroup>
                  </Col>
                </Row>
@@ -73,7 +87,7 @@ class Register extends React.Component{
                  <Col className="pl-1" md="12">
                    <FormGroup>
                      <label>Email address</label>
-                     <Input placeholder="Email" type="email" />
+                     <Input placeholder="Email" name="email" onChange={this.handleChange}  type="email" />
                    </FormGroup>
                  </Col>
                </Row>
@@ -81,7 +95,7 @@ class Register extends React.Component{
                <Col className="pl-1" md="12">
                    <FormGroup>
                      <label>Password</label>
-                     <Input placeholder="Password" type="password" />
+                     <Input placeholder="Password" name="password" onChange={this.handleChange} type="password" />
                    </FormGroup>
                  </Col>
                </Row>
@@ -89,11 +103,19 @@ class Register extends React.Component{
                <Col className="pl-1" md="12">
                    <FormGroup>
                      <label>Confirm Password</label>
-                     <Input placeholder="Password" type="password" />
+                     <Input placeholder="Password" name="password_confirmation" onChange={this.handleChange} type="password" />
                    </FormGroup>
                  </Col>
                </Row>
-                         <Row>
+               <Row>
+               <div class="custom-control custom-switch">
+  <input type="checkbox" class="custom-control-input" onChange={this.handleIsAdim} id="customSwitches" />
+  <label class="custom-control-label"  for="customSwitches">Admin</label>
+</div>
+
+
+               </Row>
+                <Row>
                  <div className="update ml-auto mr-auto">
                    <Button
                      className="btn-round"
@@ -103,6 +125,7 @@ class Register extends React.Component{
                    </Button>
                  </div>
                </Row>
+              
                <Row>
                       <div className="update ml-auto mr-auto">
           <p>Already have an account?

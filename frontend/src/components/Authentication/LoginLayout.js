@@ -32,11 +32,7 @@ class Login extends React.Component{
   })
   }
   componentDidMount(){
-  axios.get('/api/user').then(response=>{
-    console.log(response)
-}).catch(error=>{
-  console.log(error);
-});
+
   }
  
   renderRedirect = ()=>{
@@ -73,12 +69,13 @@ class Login extends React.Component{
               passErr: '',
           });
       }
+      // console.log(this.state.password);
     axios.defaults.withCredentials=true;
     axios.get("/sanctum/csrf-cookie").then(response => {
       axios.post("/login",this.state).then(res => {
        console.log("logged in :",res);
        sessionStorage.setItem('loggedIn',true);
-       this.props.history.push('/HomePage');
+       this.props.history.push('/dashboard');
         
       }).catch(error=>{
         console.log(error);
@@ -95,12 +92,12 @@ class Login extends React.Component{
                   <CardTitle tag="h5">Sign in</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Form>
+                  <Form onSubmit={this.onSubmit}>
                     <Row>
                       <Col className="pl-1" md="12">
                         <FormGroup>
                           <label>Email address</label>
-                          <Input placeholder="Email" type="email" />
+                          <Input placeholder="Email" name="email" onChange={this.handleChange} type="email" />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -108,7 +105,7 @@ class Login extends React.Component{
                     <Col className="pl-1" md="12">
                         <FormGroup>
                           <label>Password</label>
-                          <Input placeholder="Password" type="password" />
+                          <Input placeholder="Password" name="password" onChange={this.handleChange}  type="password" />
                         </FormGroup>
                       </Col>
                     </Row>
