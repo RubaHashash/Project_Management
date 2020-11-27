@@ -30,6 +30,8 @@ class Register extends React.Component {
     password_confirmation:"",
     redirect:false
   }
+}
+
   SetRedirect = () => {
     this.setState({
       redirect: true
