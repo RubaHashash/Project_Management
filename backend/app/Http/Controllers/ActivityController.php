@@ -4,18 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Milestone;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
+    private $pagination = 5;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($milestone)
     {
-        //
+        $milestone = Milertone::with('project')->find($milestone->id);
+        if($milestone->project->company_id === Auth::user()->company_id){
+            $activities = Activity::where('milestone_id',$milestone->id)->latest()->simplePaginate($this->pagination);
+            return response()->json($activities);
+        }
+      return json_encode(0);
     }
 
     /**

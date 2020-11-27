@@ -4,18 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Milestone;
 use App\Models\Project;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class MilestoneController extends Controller
 {
+    private $pagination = 5;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($project)
     {
-        //
+        if($project->company_id === Auth::user()->company_id){
+            $milestones = Milestone::where('project_id',$project->id)->latest()->simplePaginate($this->pagination);
+            return response()->json($milestones);
+        }
+      return json_encode(0);
     }
 
     /**
