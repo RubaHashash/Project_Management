@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\User;
+use App\Models\Company;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -35,7 +38,35 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /*request()->validate([
+            'amount' => ['required', 'regex:pattern']
+            company_id
+            team_id
+        ]);*/
+
+        $company = Company::findOrFail(request('company_id'));
+
+        $team = Team::findOrFail(request('team_id'));
+
+        if(Auth::id() === $comapany->admin_id or Auth::id() === $team->manager_id){
+
+            $project = new Project();
+
+            $project->name = request('name');
+            $project->planned_start_date = request('planned_start_date');
+            $project->planned_end_date = request('planned_end_date');
+            $project->project_description = request('project_description');
+            $project->planned_budget = request('planned_budget');
+            $project->company_id = request('company_id');
+            $project->team_id = request('team_id');
+
+            $project->save();
+
+            return json_encode($project);
+        }
+
+        return json_encode(0);
+        
     }
 
     /**
@@ -69,7 +100,26 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $project = Project::findOrFail($request->id);
+
+        $company = Company::findOrFail($project->company_id);
+
+        $team = Team::findOrFail($project->team_id);
+
+        if(Auth::id() === $comapany->admin_id or Auth::id() === $team->manager_id){
+            $project->name = request('name');
+            $project->planned_start_date = request('planned_start_date');
+            $project->planned_end_date = request('planned_end_date');
+            $project->project_description = request('project_description');
+            $project->planned_budget = request('planned_budget');
+
+            $project->save();
+
+            return json_encode(1);    
+        }
+
+        return json_encode(0);
+
     }
 
     /**
@@ -79,7 +129,18 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Project $project)
-    {
-        //
+    { ///can be fixed in eloquents
+        $project = Project::findOrFail($request->id);///yemken ma ela 3aze
+
+        $company = Company::findOrFail($project->company_id);
+
+        $team = Team::findOrFail($project->team_id);
+
+        if(Auth::id() === $comapny->admin_id or Auth::id() === $team->manager_id){
+            $success = Project::where('id',$project->id)->delete();
+            return json_encode($success);
+        }
+        return json_encode(0);
+        
     }
 }

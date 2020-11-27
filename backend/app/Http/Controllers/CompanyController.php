@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -35,7 +37,25 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /*request()->validate([
+            'amount' => ['required', 'regex:pattern']
+        ]);*/
+
+        $company = new Company();
+
+        $company->name = request('name');
+        $company->address = request('name');
+        $company->city = request('city');
+        $company->country = request('country');
+        $company->phone_number = request('phonr_number');
+        $company->description = request('description');
+        $company->date_of_establishment = request('date_of_establishment');
+        $company->admin_id = Auth::id();
+
+        $company->save();
+
+        return json_encode($company);
+
     }
 
     /**
@@ -69,7 +89,48 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        /*request()->validate([
+            'amount' => ['required', 'regex:pattern']
+        ]);*/
+
+        $company = Company::findOrFail($request->id);
+
+        if($company->admin_id != Auth::id()){
+            return json_encode(0);
+        }
+
+        $company->name = request('name');
+        $company->email = request('email');
+        $company->address = request('address');
+        $company->city = request('city');
+        $company->country = request('country');
+        $company->phone_number = request('phonr_number');
+        $company->description = request('description');
+        $company->date_of_establishment = request('date_of_establishment');
+
+        $company->save();
+
+        return json_encode(1);
+    }
+
+    public function changeAdmin(Request $request, Company $company)
+    {
+        $company = Company::findOrFail($request->company_id);
+
+        if($company->admin_id != Auth::id()){
+            return json_encode(0);
+        }
+
+        if(!User::findOrFail($request->new_admin_id)){
+            //new admin doesn't exist
+            return json_encode(0);
+        }
+
+        $company->admin = request('new_admin_id');
+
+        $success = $company->save();
+
+        return json_encode($success);
     }
 
     /**
@@ -80,6 +141,10 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        if($company->admin_id === Auth::id()){
+            $success = Company::where('id',$company->id)->delete();
+            return json_encode($success);
+        }
+        return json_encode(0);
     }
 }

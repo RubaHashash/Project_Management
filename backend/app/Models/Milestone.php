@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Milestone extends Model
 {
     use HasFactory;
+
+    public function project(){
+        return $this->belongsTo(Project::class)->with('team')->with('company');
+    }
 }
