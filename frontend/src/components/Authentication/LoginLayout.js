@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -15,30 +15,34 @@ import {
   Col,
 } from "reactstrap";
 
-class Login extends React.Component{
-  constructor(props){
+class Login extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       email: "",
       password: "",
-      passErr:"",
-      emailErr:"",
-      redirect:false
+      passErr: "",
+      emailErr: "",
+      redirect: false
+    }
   }
+  SetRedirect = () => {
+    this.setState({
+      redirect: true
+    })
   }
-  SetRedirect=()=>{
-  this.setState({
-    redirect:true
-  })
-  }
-  componentDidMount(){
 
-  }
- 
-  renderRedirect = ()=>{
-  if(this.state.redirect){
-    return <Redirect to='/Register' />
-  }
+  componentDidMount() {
+    axios.get('/api/user').then(response => {
+      console.log(response)
+    }).catch(error => {
+      console.log(error);
+    };
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/Register' />
+    }
   }
   handleChange = ({ target }) => {
     this.setState({ ...this.state, [target.name]: target.value });
@@ -46,21 +50,21 @@ class Login extends React.Component{
   onSubmit = e => {
     e.preventDefault();
     var error = [];
-    if(this.state.email == ''){
-     this.setState({
-         emailErr: 'Please enter your email.',
-     });
-     error.push("Email error");
-           
-     }else{
-         this.setState({
-             emailErr: '',
-         });
-     }
-     var error = [];
-     if(this.state.password == ''){
+    if (this.state.email == '') {
       this.setState({
-          passErr: 'Please enter your password',
+        emailErr: 'Please enter your email.',
+      });
+      error.push("Email error");
+
+    } else {
+      this.setState({
+        emailErr: '',
+      });
+    }
+    var error = [];
+    if (this.state.password == '') {
+      this.setState({
+        passErr: 'Please enter your password',
       });
       error.push("Password error");
             
@@ -83,6 +87,7 @@ class Login extends React.Component{
     });
 
   };
+
   render(){
   return (
     <div className="App">
@@ -117,23 +122,24 @@ class Login extends React.Component{
                           type="submit">
                           Login
                         </Button>
-                      </div>
-                    </Row>
-                    <Row>
-                      <div className="update ml-auto mr-auto">
-          <p>Not Registered?
+                  </div>
+                </Row>
+                <Row>
+                  <div className="update ml-auto mr-auto">
+                    <p>Not Registered?
 							<a href="/register" style={{ marginLeft: "7px" }}>Create an account</a>
+
 						</p>
                   </div>
                     </Row>
 
-                  </Form>
-                </CardBody>
-            </Col>
-		</Card>
+              </Form>
+            </CardBody>
+          </Col>
+        </Card>
 
-    </div>
-  );
+      </div>
+    );
   }
 }
 export default Login;

@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {
+
     Button,
     Card,
     CardHeader,
@@ -16,11 +17,12 @@ import {
     ButtonToggle,
   } from "reactstrap";
 
-class Register extends React.Component{
 
-  constructor(props){
+class Register extends React.Component {
+
+  constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       email: "",
       name:"",
     password: "",
@@ -28,17 +30,16 @@ class Register extends React.Component{
     password_confirmation:"",
     redirect:false
   }
+  SetRedirect = () => {
+    this.setState({
+      redirect: true
+    })
   }
-  SetRedirect=()=>{
-  this.setState({
-    redirect:true
-  })
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/HomePage' />
+    }
   }
-  renderRedirect = ()=>{
-  if(this.state.redirect){
-    return <Redirect to='/HomePage' />
-  }
-  } 
   handleChange = ({ target }) => {
     this.setState({ ...this.state, [target.name]: target.value });
   };
@@ -65,8 +66,8 @@ class Register extends React.Component{
     });
 
   };
-  render(){
-    return (
+  render() {
+    return(
         <div className="App">
         <Card className="card-user" style={{width:"30%",marginLeft:"35%",marginTop:"60px"}}>     		
                <Col md="12">
@@ -129,16 +130,17 @@ class Register extends React.Component{
                <Row>
                       <div className="update ml-auto mr-auto">
           <p>Already have an account?
-							<a href="/login" style={{ marginLeft: "7px" }}>Sign in</a>
-						</p>
-                      </div>
-                    </Row>
-             </Form>
-           </CardBody>
-       </Col>
-   </Card>
 
-</div>)
+							<a href="/login" style={{ marginLeft: "7px" }}>Sign in</a>
+                    </p>
+                  </div>
+                </Row>
+              </Form>
+            </CardBody>
+          </Col>
+        </Card>
+
+      </div>)
   }
 }
 export default Register;

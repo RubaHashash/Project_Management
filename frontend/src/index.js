@@ -27,7 +27,11 @@ import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import RegisterLayout from "components/Authentication/RegisterLayout.js";
 import LoginLayout from "components/Authentication/LoginLayout.js";
+
 import AdminDashboard from "./AdminLayout/AdminDashboard";
+
+import CompanyForm from "components/CompanyForm.js";
+
 const hist = createBrowserHistory();
 
 ReactDOM.render(
@@ -37,7 +41,11 @@ ReactDOM.render(
       <Route path="/login" render={(props) => <LoginLayout {...props} />} />
       {/* <Redirect to="/login" /> */}
       <Route path="/register" render={(props) => <RegisterLayout {...props} />} />
+
       <Route path="/admin" render={(props) => <AdminDashboard {...props} />} />
+
+      <Route path="/company" render={(props) => <CompanyForm {...props} />} />
+
       {/* <Redirect to="/register" /> */}
     </Switch>
   </Router>,
