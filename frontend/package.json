@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://demos.creative-tim.com/paper-dashboard-react/#/dashboard",
   "dependencies": {
+    "@material-ui/core": "^4.11.1",
     "@types/googlemaps": "3.39.6",
     "@types/markerclustererplus": "2.1.33",
     "@types/react": "16.9.35",
@@ -58,6 +59,5 @@
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8"
   },
-
   "proxy": "http://localhost:8000"
 }
