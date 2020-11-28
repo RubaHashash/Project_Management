@@ -10,6 +10,7 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import Adminroutes from "routes/AdminRoutes.js";
+
 var ps;
 
 class AdminDashboard extends React.Component {
@@ -47,7 +48,9 @@ class AdminDashboard extends React.Component {
   };
   render() {
     return (
+      
       <div className="wrapper">
+        
         <Sidebar
           {...this.props}
           routes={Adminroutes}
