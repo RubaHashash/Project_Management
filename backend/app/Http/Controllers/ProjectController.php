@@ -23,6 +23,13 @@ class ProjectController extends Controller
         return response()->json($projects);
     }
 
+
+  /*  public function Budget(){
+        $budget=Project::get();
+        return response()->json($budget);
+    }*/
+   
+
     /**
      * Show the form for creating a new resource.
      *
@@ -51,7 +58,7 @@ class ProjectController extends Controller
 
         $team = Team::findOrFail(request('team_id'));
 
-        if(Auth::id() === $comapany->admin_id or Auth::id() === $team->manager_id){
+        if(Auth::id() === $company->admin_id || Auth::id() === $team->manager_id){
 
             $project = new Project();
 
@@ -103,13 +110,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $project = Project::findOrFail($request->id);
+        $project = Project::with('team')->with('company')->findOrFail($request->id);
 
-        $company = Company::findOrFail($project->company_id);
-
-        $team = Team::findOrFail($project->team_id);
-
-        if(Auth::id() === $comapany->admin_id or Auth::id() === $team->manager_id){
+        if(Auth::id() === $project->company->admin_id || Auth::id() === $tproject->team->manager_id){
             $project->name = request('name');
             $project->planned_start_date = request('planned_start_date');
             $project->planned_end_date = request('planned_end_date');
@@ -133,14 +136,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     { ///can be fixed in eloquents
-        $project = Project::findOrFail($request->id);///yemken ma ela 3aze
+        $project = Project::with('team')->with('company')->findOrFail(request('id'));
 
-        $company = Company::findOrFail($project->company_id);
-
-        $team = Team::findOrFail($project->team_id);
-
-        if(Auth::id() === $comapny->admin_id or Auth::id() === $team->manager_id){
-            $success = Project::where('id',$project->id)->delete();
+        if(Auth::id() === $project->company->admin_id || Auth::id() === $tproject->team->manager_id){
+            $success = Project::where('id',request('id'))->delete();
             return json_encode($success);
         }
         return json_encode(0);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -14,6 +15,25 @@ class TeamController extends Controller
     {
         $teams = Team::with('manager')->where('company_id', Auth::user()->company_id)->latest()->simplePaginate($this->pagination);
         return response()->json($teams);
+    }
+
+    public function ProjectsOfTeam(){
+        $teamsProj=DB::table("teams")->where("teams.company_id", Auth::user()->company_id)
+                    ->join('projects','teams.id','=','projects.team_id')
+                    ->select('teams.name',DB::raw("COUNT(projects.id) as COUNT"))
+                    ->groupBy('teams.id')
+                    ->get();
+        return response()->json($teamsProj);
+    }
+    
+    public function EmployeesPerTeam(){
+        $teamsEmp=DB::table('teams')->where("teams.company_id", Auth::user()->company_id)
+                    ->join('users','users.team_id','=','teams.id')
+                    ->select('teams.name',DB::raw("COUNT(users.id) as COUNT"))
+                    ->groupBy("teams.id")           
+                    ->get();
+        return response()->json($teamsEmp);
+   
     }
 
     /**
@@ -42,7 +62,7 @@ class TeamController extends Controller
 
         $team->name = request('name');
         $team->manager_id = request('manager_id');
-        //$team->company_id = request('company_id');
+        $team->company_id = request('company_id');
 
         $team->save();
 
@@ -60,6 +80,8 @@ class TeamController extends Controller
     {
         //
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -79,7 +101,7 @@ class TeamController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, Team $team)
     {
         /*request()->validate([
             'amount' => ['required', 'regex:pattern']
@@ -90,6 +112,7 @@ class TeamController extends Controller
         //if($team->company->admin_id != Auth::id()){
         //    return json_encode(0);
         //}
+        $team = Team::find(request('id'));
 
         $team->name = request('name');
         $team->manager_id = request('manager_id');
@@ -119,14 +142,14 @@ class TeamController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy(Team $team)
     {
 //$team = Company::with('company')->findOrFail($request->id);
 
         //if($team->company->admin_id != Auth::id()){
         //    return json_encode(0);
         //}
-        $success = Team::where('id',$team->id)->delete();
+        $success = Team::where('id',request('id'))->delete();
         return json_encode($success);
     }
 }

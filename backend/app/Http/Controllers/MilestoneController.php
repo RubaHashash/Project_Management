@@ -16,10 +16,12 @@ class MilestoneController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($project)
+    public function index($project_id)
     {
+        $project = Project::find($project_id);     // return json_encode($project);
+
         if($project->company_id === Auth::user()->company_id){
-            $milestones = Milestone::where('project_id',$project->id)->latest()->simplePaginate($this->pagination);
+            $milestones = Milestone::where('project_id',$project_id)->latest()->simplePaginate($this->pagination);
             return response()->json($milestones);
         }
       return json_encode(0);
@@ -55,7 +57,7 @@ class MilestoneController extends Controller
             return json_encode(0);
         }
 
-        if(Auth::id() === $project->comapny->admin_id or Auth::id() === $project->team->manager_id){
+        if(Auth::id() === $project->company->admin_id || Auth::id() === $project->team->manager_id){
 
             $milestone = new Milestone();
 
@@ -109,15 +111,15 @@ class MilestoneController extends Controller
      */
     public function update(Request $request, Milestone $milestone)
     {
-        $milestone = Milstone::with('project')->findOrFail($request->id);
+        $milestone = Milestone::with('project')->findOrFail($request->id);
 
-        if(Auth::id() === $milestone->project->comapany->admin_id or Auth::id() === $milestone->project->team->manager_id){
+        if(Auth::id() === $milestone->project->company->admin_id || Auth::id() === $milestone->project->team->manager_id){
             $milestone->name = request('name');
             $milestone->priority = request('priority');
             $milestone->planned_start_date = request('planned_start_date');
             $milestone->planned_end_date = request('planned_end_date');
             $milestone->planned_budget = request('planned_budget');
-            $milestone->project_id = request('project_id');
+            //$milestone->project_id = request('project_id');
 
             if(request('description')){
                 $milestone->description = request('description');
@@ -140,9 +142,9 @@ class MilestoneController extends Controller
     public function destroy(Milestone $milestone)
     {
 
-        $milestone = Project::with('project')->findOrFail($milestone->id);
+        $milestone = Milestone::with('project')->findOrFail(request('id'));
 
-        if(Auth::id() === $milestone->project->comapany->admin_id or Auth::id() === $milestone->project->team->manager_id){
+        if(Auth::id() === $milestone->project->company->admin_id || Auth::id() === $milestone->project->team->manager_id){
             $success = Milestone::where('id',$milestone->id)->delete();
             return json_encode($success);
         }

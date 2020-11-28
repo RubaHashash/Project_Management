@@ -23,8 +23,8 @@ class CreateActivitiesTable extends Migration
             $table->date('planned_end_date');
             $table->decimal('actual_budget')->nullable();
             $table->decimal('planned_budget');
-            $table->unsignedBigInteger('milstone_id');
-            $table->foreign('milstone_id')->references('id')->on('milestones')->onDelete('cascade');
+            $table->unsignedBigInteger('milestone_id');
+            $table->foreign('milestone_id')->references('id')->on('milestones')->onDelete('cascade');
             $table->unsignedBigInteger('worker_id')->nullable();
             $table->foreign('worker_id')->references('id')->on('users')->onDelete('set null');
             $table->unsignedBigInteger('activity_dep_id')->nullable();

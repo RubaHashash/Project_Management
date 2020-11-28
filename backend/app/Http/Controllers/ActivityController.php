@@ -16,11 +16,11 @@ class ActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($milestone)
+    public function index($milestone_id)
     {
-        $milestone = Milertone::with('project')->find($milestone->id);
+        $milestone = Milestone::with('project')->find($milestone_id);
         if($milestone->project->company_id === Auth::user()->company_id){
-            $activities = Activity::where('milestone_id',$milestone->id)->latest()->simplePaginate($this->pagination);
+            $activities = Activity::where('milestone_id',$milestone_id)->latest()->simplePaginate($this->pagination);
             return response()->json($activities);
         }
       return json_encode(0);
@@ -50,13 +50,13 @@ class ActivityController extends Controller
             team_id
         ]);*/
 
-        $milestone = Milstone::with('project')->findOrFail(request('milestone_id'));
+        $milestone = Milestone::with('project')->findOrFail(request('milestone_id'));
 
         if(!$milestone){
             return json_encode(0);
         }
 
-        if(Auth::id() === $milestone->project->comapany->admin_id or Auth::id() === $milestone->project->team->manager_id){
+        if(Auth::id() === $milestone->project->company->admin_id || Auth::id() === $milestone->project->team->manager_id){
 
             $activity = new Activity();
 
@@ -64,8 +64,7 @@ class ActivityController extends Controller
             $activity->planned_start_date = request('planned_start_date');
             $activity->planned_end_date = request('planned_end_date');
             $activity->planned_budget = request('planned_budget');
-            $activity->milstone_id = request('milstone_id');
-            $activity->milstone_id = request('milstone_id');
+            $activity->milestone_id = request('milestone_id');
 
             if(request('description')){
                 $activity->description = request('description');
@@ -118,16 +117,15 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        $activity = Activity::with('milestone')->findOrFail($request->id);
+        $activity = Activity::with('milestone')->findOrFail(request('id'));
 
-        if(Auth::id() === $activity->milestone->project->comapany->admin_id or
-            Auth::id() === $activity->milestone->project->team->manager_id){
+        //if(Auth::id() === $activity->milestone->project->company->admin_id ||
+        //    Auth::id() === $activity->milestone->project->team->manager_id){
             $activity->name = request('name');
             $activity->planned_start_date = request('planned_start_date');
             $activity->planned_end_date = request('planned_end_date');
             $activity->planned_budget = request('planned_budget');
-            $activity->milstone_id = request('milstone_id');
-            $activity->milstone_id = request('milstone_id');
+            $activity->milestone_id = request('milestone_id');
 
             if(request('description')){
                 $activity->description = request('description');
@@ -144,9 +142,9 @@ class ActivityController extends Controller
             $activity->save();
 
             return json_encode(1);
-        }
+        //}
 
-        return json_encode(0);
+        return json_encode($activity);
     }
 
     /**
@@ -157,13 +155,13 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        $activity = Activity::with('milestone')->findOrFail($request->id);
+        ///$activity = Activity::with('milestone')->findOrFail($request->id);
 
-        if(Auth::id() === $activity->milestone->project->comapany->admin_id or
-        Auth::id() === $activity->milestone->project->team->manager_id){
-            $success = Activity::where('id',$activity->id)->delete();
+        //if(Auth::id() === $activity->milestone->project->company->admin_id ||
+        //Auth::id() === $activity->milestone->project->team->manager_id){
+            $success = Activity::where('id',request('id'))->delete();
             return json_encode($success);
-        }
+        //}
         return json_encode(0);
     }
 }
