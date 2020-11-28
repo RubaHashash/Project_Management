@@ -60,7 +60,7 @@ class Register extends React.Component {
       axios.post("/register",this.state).then(res => {
         sessionStorage.setItem('loggedIn',true);
         if(this.state.isAdmin){
-        this.props.history.push('/admin');
+        this.props.history.push('/company');
         }
         
         console.log(res.config['data']);

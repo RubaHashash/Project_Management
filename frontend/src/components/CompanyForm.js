@@ -69,9 +69,9 @@ class CompanyForm extends React.Component {
       }
 
       axios.defaults.withCredentials = true;
-      axios.post("/company", this.state).then(res => {
+      axios.post("/companies/add", this.state).then(res => {
          console.log("response:", res);
-         this.props.history.push('/HomePage');
+         this.props.history.push('/admin');
 
       }).catch(error => {
          console.log(error);
@@ -210,7 +210,7 @@ class CompanyForm extends React.Component {
                                        color="primary"
                                        type="submit"
                                     >
-                                       Update Profile
+                                       Add Company
                                     </Button>
                                  </div>
                               </Row>

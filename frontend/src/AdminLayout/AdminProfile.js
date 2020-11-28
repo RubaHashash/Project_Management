@@ -1,5 +1,6 @@
 
 import React from "react";
+import axios from "axios";
 
 // reactstrap components
 import {
@@ -17,6 +18,29 @@ import {
 } from "reactstrap";
 
 class User extends React.Component {
+  
+  constructor(props){
+      super(props);
+      this.state={
+        teams:[],
+  }
+}
+  
+  componentDidMount() {
+
+    this.getTeams()
+  }
+
+  getTeams = ()=>{
+    axios.defaults.withCredentials=true;
+       axios.get('/api/teams').then((response)=>{
+          return response.data.data;
+        }).then((team)=>{
+          this.setState({
+           teams:team});
+        });
+  } 
+
   render() {
     return (
       <>
@@ -80,25 +104,31 @@ class User extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <ul className="list-unstyled team-members">
-                    <li>
-                      <Row>
-                        <Col md="2" xs="2">
-                          <div className="avatar">
-                            <img
-                              alt="..."
-                              className="img-circle img-no-padding img-responsive"
-                              src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
-                            />
-                          </div>
-                        </Col>
-                        <Col md="7" xs="7">
-                          DJ Khaled <br />
-                          <span className="text-muted">
-                            <small>Offline</small>
-                          </span>
-                        </Col>
-                      </Row>
-                    </li>
+                  {
+                      this.state.teams.map(team=>{
+                        return(
+                          <li>
+                          <Row>
+                            <Col md="2" xs="2">
+                              <div className="avatar">
+                                <img
+                                  alt="..."
+                                  className="img-circle img-no-padding img-responsive"
+                                  src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
+                                />
+                              </div>
+                            </Col>
+                            <Col md="7" xs="7">
+                              {team.name} <br />
+                            </Col>
+                          </Row>
+                        </li>
+                        )
+
+                        })
+                  }
+  
+
                   </ul>
                 </CardBody>
               </Card>
