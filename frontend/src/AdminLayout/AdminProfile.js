@@ -34,8 +34,10 @@ class User extends React.Component {
   getTeams = ()=>{
     axios.defaults.withCredentials=true;
        axios.get('/api/teams').then((response)=>{
-          return response.data.data;
+          return response.data.teams;
         }).then((team)=>{
+          console.log("reponse",team);
+
           this.setState({
            teams:team});
         });
