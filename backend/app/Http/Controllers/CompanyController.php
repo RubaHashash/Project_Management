@@ -17,7 +17,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Companies::latest()->simplePaginate($this->pagination);
+        $companies = Company::latest()->simplePaginate($this->pagination);
         return response()->json($companies);
     }
 
@@ -46,10 +46,11 @@ class CompanyController extends Controller
         $company = new Company();
 
         $company->name = request('name');
-        $company->address = request('name');
+        $company->email = request('email');
+        $company->address = request('address');
         $company->city = request('city');
         $company->country = request('country');
-        $company->phone_number = request('phonr_number');
+        $company->phone_number = request('phone_number');
         $company->description = request('description');
         $company->date_of_establishment = request('date_of_establishment');
         $company->admin_id = Auth::id();
@@ -106,13 +107,13 @@ class CompanyController extends Controller
         $company->address = request('address');
         $company->city = request('city');
         $company->country = request('country');
-        $company->phone_number = request('phonr_number');
+        $company->phone_number = request('phone_number');
         $company->description = request('description');
         $company->date_of_establishment = request('date_of_establishment');
 
         $company->save();
 
-        return json_encode(1);
+        return json_encode($company);
     }
 
     public function changeAdmin(Request $request, Company $company)
@@ -143,8 +144,8 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        if($company->admin_id === Auth::id()){
-            $success = Company::where('id',$company->id)->delete();
+        if(Company::find(request('id'))->admin_id === Auth::id()){
+            $success = Company::where('id',request('id'))->delete();
             return json_encode($success);
         }
         return json_encode(0);

@@ -10,6 +10,6 @@ class Activity extends Model
     use HasFactory;
 
     public function milestone(){
-        return $this->belongsTo(milestone::class)->with('project');
+        return $this->belongsTo(Milestone::class)->with('project');
     }
 }

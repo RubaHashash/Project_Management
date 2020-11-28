@@ -34,17 +34,19 @@ Route::middleware('auth:sanctum')->post('/projects/edit',[ProjectController::cla
 Route::middleware('auth:sanctum')->post('/projects/delete',[ProjectController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/projects',[ProjectController::class, 'index']);
 
-Route::middleware('auth:sanctum')->post('/milestones/add',[MilstoneController::class, 'store']);
-Route::middleware('auth:sanctum')->post('/milestones/edit',[MilstoneController::class, 'update']);
-Route::middleware('auth:sanctum')->post('/milestones/delete',[MilstoneController::class, 'destroy']);
-Route::middleware('auth:sanctum')->get('/milestones/{project}',[MilstoneController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/milestones/add',[MilestoneController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/milestones/edit',[MilestoneController::class, 'update']);
+Route::middleware('auth:sanctum')->post('/milestones/delete',[MilestoneController::class, 'destroy']);
+Route::middleware('auth:sanctum')->get('/milestones/{project_id}',[MilestoneController::class, 'index']);
 
 Route::middleware('auth:sanctum')->post('/activities/add',[ActivityController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/activities/edit',[ActivityController::class, 'update']);
 Route::middleware('auth:sanctum')->post('/activities/delete',[ActivityController::class, 'destroy']);
-Route::middleware('auth:sanctum')->post('/activities/{milestone}',[ActivityController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/activities/{milestone_id}',[ActivityController::class, 'index']);
 
 Route::middleware('auth:sanctum')->post('/teams/add',[TeamController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/teams/edit',[TeamController::class, 'update']);
 Route::middleware('auth:sanctum')->post('/teams/delete',[TeamController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/teams',[TeamController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/teams/projects',[TeamController::class, 'ProjectsOfTeam']);
+Route::middleware('auth:sanctum')->get('/teams/employees',[TeamController::class, 'EmployeesPerTeam']);
