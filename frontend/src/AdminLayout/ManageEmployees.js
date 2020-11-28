@@ -17,7 +17,7 @@
 
 */
 import React from "react";
-
+import  EditEmployee from "AdminLayout/EditEmployee";
 // reactstrap components
 import {
   Card,
@@ -29,10 +29,29 @@ import {
   Col,
 } from "reactstrap";
 
-class Tables extends React.Component {
+class ManageEmployee extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      setOpen: false,
+    }
+  }
+
+  handleClickOpen = () => {
+    this.setState({setOpen:true});
+  };
+
+  closeDialog = () => {
+    this.setState({setOpen: false});
+  };
+
+
   render() {
     return (
       <>
+      if ({this.state.setOpen}) {
+              <EditEmployee openD={this.state.setOpen} closeD={this.closeDialog}/>
+      }
         <div className="content">
           <Row>
             <Col md="12">
@@ -68,10 +87,46 @@ class Tables extends React.Component {
               </Card>
             </Col>
           </Row>
+
+          <Row>
+            <Col md="12">
+              <Card>
+                <CardHeader>
+                  <CardTitle tag="h4">Employees Table</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Table responsive>
+                    <thead className="text-primary">
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Team</th>
+                        <th>Projects</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Dakota Rice</td>
+                        <td>Niger</td>
+                        <td>Oud-Turnhout</td>
+                        <td>Oud-Turnhout</td>
+                        <td>
+                            <a className="nc-icon nc-ruler-pencil" style={{marginLeft: "10px", marginRight: "20px"}}
+                              onClick={this.handleClickOpen}/>
+                            <a className="nc-icon nc-simple-remove" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
         </div>
       </>
     );
   }
 }
 
-export default Tables;
+export default ManageEmployee;
