@@ -38,7 +38,7 @@ class Login extends React.Component {
   getuser=()=>{
     axios.defaults.withCredentials=true;
      axios.get('/api/users/status').then(response=>{
-    console.log(response)
+    console.log(response.data.role)
     if(response.data.role==="admin"){
       if(response.data.company_id){
         sessionStorage.setItem('role','admin');
@@ -47,10 +47,10 @@ class Login extends React.Component {
            this.props.history.push('/company')
     }
   }
-  if(response.data.role==="manager"){
-    sessionStorage.setItem('role','manager');
-    this.props.history.push('/projectManager');
-  }
+  // if(response.data.role==="manager"){
+  //   sessionStorage.setItem('role','manager');
+  //   this.props.history.push('/projectManager');
+  // }
   // else{
   //    if(response.data.company_id){
     // sessionStorage.setItem('role','employee');

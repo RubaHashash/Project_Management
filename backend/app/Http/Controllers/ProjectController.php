@@ -48,11 +48,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        /*request()->validate([
-            'amount' => ['required', 'regex:pattern']
-            company_id
-            team_id
-        ]);*/
 
         $company = Company::findOrFail(request('company_id'));
 

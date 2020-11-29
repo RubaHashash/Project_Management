@@ -25,71 +25,11 @@ class Projects extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         projects: [{
-            id: 1,
-            name: "Project One",
-            actual_start_date: "2020-01-01",
-            actual_end_date: "2020-02-04",
-            planned_start_date: "2020-01-05",
-            planned_end_date: "2020-02-02",
-            description: "project one description",
-            planned_budget: "100",
-            team: "Team One",
-         }],
-         /*[
-            {
-               id: 1,
-               name: "Project One",
-               actual_start_date: "2020-01-01",
-               actual_end_date: "2020-02-04",
-               planned_start_date: "2020-01-05",
-               planned_end_date: "2020-02-02",
-               description: "project one description",
-               planned_budget: "100",
-               actual_budget: "",
-               team: "Team One",
-            },
-            {
-               id: 2,
-               name: "Project Tow",
-               actual_start_date: "2020-01-01",
-               actual_end_date: "",
-               planned_start_date: "2020-01-05",
-               planned_end_date: "2020-02-02",
-               description: "project one description",
-               planned_budget: "100",
-               actual_budget: "",
-               team: "Team One",
-            },
-            {
-               id: 3,
-               name: "Project Three",
-               actual_start_date: "",
-               actual_end_date: "",
-               planned_start_date: "2020-01-05",
-               planned_end_date: "2020-02-02",
-               description: "project one description",
-               planned_budget: "100",
-               actual_budget: "",
-               team: "Team One",
-            },
-            {
-               id: 4,
-               name: "Project Four",
-               actual_start_date: "2020-01-01",
-               actual_end_date: "2020-02-04",
-               planned_start_date: "2020-01-05",
-               planned_end_date: "2020-02-02",
-               description: "project one description",
-               planned_budget: "100",
-               actual_budget: "",
-               team: "Team One",
-            },
-
-         ]*/
-         setAddOpen: false,
+         projects: [],
+          setAddOpen: false,
          setViewOpen: false,
-         setEditOpen: false
+         setEditOpen: false,
+         project
 
       }
    }
@@ -101,7 +41,7 @@ class Projects extends React.Component {
    getProjects = () => {
       axios.defaults.withCredentials = true;
       axios.get('/api/projects').then((response) => {
-         console.log("response", response.data.data);
+         // console.log("response", response.data.data);
 
          this.setState({
             projects: response.data.data
@@ -168,7 +108,7 @@ class Projects extends React.Component {
    }
 
    Edit = (end_date) => {
-      if (end_date === "")
+      if (end_date === null)
          return <i className="nc-icon nc-ruler-pencil" style={{ marginLeft: "90px" }} onClick={this.handleEditClickOpen} />
 
    }
@@ -178,7 +118,15 @@ class Projects extends React.Component {
          return <EditProject openD={this.state.setEditOpen} closeD={this.closeEditDialog} project={project} />
       }
    }
-
+   DeleteProject =(e)=>{
+      // console.log(project.id)
+      e.preventDefault();
+      let Projectid={ id: project.id}
+      axios.defaults.withCredentials = true;
+      axios.post("/api/projects/delete",Projectid).then(response => {
+         console.log(response);
+   })
+   }
 
    render() {
       if (this.state.setAddOpen) {
@@ -202,7 +150,7 @@ class Projects extends React.Component {
                <Row>
                   {this.state.projects.map(project => ( 
                      < Col md="4" key={project.id} >
-                        {console.log('pro',project)}
+                        {/* {console.log('pro',project)} */}
                         {this.openViewDialog(project)}
                         < Card className={this.Color(project.actual_start_date, project.actual_end_date)}>
                            <CardHeader>
@@ -211,8 +159,9 @@ class Projects extends React.Component {
                                     {project.name}
                                     {this.Edit(project.actual_end_date)}
                                     {this.openEditDialog(project)}
-
+                                    <i  onClick={this.DeleteProject(project)} className="nc-icon nc-simple-remove" />
                                  </div>
+                                 
                               </CardTitle>
                            </CardHeader>
                            <CardBody onClick={this.handleViewClickOpen}>
