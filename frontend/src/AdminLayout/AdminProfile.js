@@ -106,25 +106,31 @@ class User extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <ul className="list-unstyled team-members">
-                    <li>
-                      <Row>
-                        <Col md="2" xs="2">
-                          <div className="avatar">
-                            <img
-                              alt="..."
-                              className="img-circle img-no-padding img-responsive"
-                              src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
-                            />
-                          </div>
-                        </Col>
-                        <Col md="7" xs="7">
-                          DJ Khaled <br />
-                          <span className="text-muted">
-                            <small>Offline</small>
-                          </span>
-                        </Col>
-                      </Row>
-                    </li>
+                  {
+                      this.state.teams.map(team=>{
+                        return(
+                          <li>
+                          <Row>
+                            <Col md="2" xs="2">
+                              <div className="avatar">
+                                <img
+                                  alt="..."
+                                  className="img-circle img-no-padding img-responsive"
+                                  src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
+                                />
+                              </div>
+                            </Col>
+                            <Col md="7" xs="7">
+                              {team.name} <br />
+                            </Col>
+                          </Row>
+                        </li>
+                        )
+
+                        })
+                  }
+  
+
                   </ul>
                 </CardBody>
               </Card>

@@ -13,7 +13,8 @@ class TeamController extends Controller
 
     public function index()
     {
-        $teams = Team::with('manager')->where('company_id', Auth::user()->company_id)->latest()->simplePaginate($this->pagination);
+        // $teams = Team::with('manager')->where('company_id', Auth::user()->company_id)->latest()->simplePaginate($this->pagination);
+        $teams = Team::latest()->simplePaginate($this->pagination);
         return response()->json($teams);
     }
 
