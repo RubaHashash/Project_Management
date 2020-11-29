@@ -6,10 +6,17 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
 
 class CompanyController extends Controller
 {
     private $pagination = 5;
+    protected $UserController;
+    public function __construct(ChildController $ChildController)
+    {
+        $this->UserController = $UserController;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -56,6 +63,8 @@ class CompanyController extends Controller
         $company->admin_id = Auth::id();
 
         $company->save();
+
+        $this->UserController->makeAdmin($company->id);
 
         return json_encode($company);
 

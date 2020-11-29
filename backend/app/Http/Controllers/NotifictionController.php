@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notifiction;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class NotifictionController extends Controller
 {
+    private $pagination = 100;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,11 @@ class NotifictionController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->isManager){
+            $notifications = Notifiction::with('employee')->where('company_id', Auth::user()->company_id)->latest()->simplePaginate($this->pagination);
+            return response()->json($notifications);
+        }
+        return response()->json(0);
     }
 
     /**
@@ -35,7 +42,14 @@ class NotifictionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $notification = new Notification();
+
+        $notification->user_id = Auth::id();
+        $notification->company_id = request('company_id');
+
+        $notification->save();
+
+        return json_encode($notification);
     }
 
     /**
@@ -80,6 +94,6 @@ class NotifictionController extends Controller
      */
     public function destroy(Notifiction $notifiction)
     {
-        //
+        
     }
 }

@@ -34,7 +34,6 @@ class TeamController extends Controller
                     ->groupBy("teams.id")           
                     ->get();
         return response()->json($teamsEmp);
-   
     }
 
     /**
