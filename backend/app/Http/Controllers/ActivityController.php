@@ -26,6 +26,12 @@ class ActivityController extends Controller
       return json_encode(0);
     }
 
+    public function userActivities(){
+        $activities = Activity::where('worker_id',Auth::id())->latest()->simplePaginate($this->pagination);
+        return response()->json($activities);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

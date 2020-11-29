@@ -2,11 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\NotifictionController;
 
 
 /*
@@ -23,6 +25,10 @@ use App\Http\Controllers\TeamController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+Route::middleware('auth:sanctum')->get('/users/status',[UserController::class, 'status']);
 
 Route::middleware('auth:sanctum')->post('/companies/add',[CompanyController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/companies/edit',[CompanyController::class, 'update']);
@@ -42,7 +48,8 @@ Route::middleware('auth:sanctum')->get('/milestones/{project_id}',[MilestoneCont
 Route::middleware('auth:sanctum')->post('/activities/add',[ActivityController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/activities/edit',[ActivityController::class, 'update']);
 Route::middleware('auth:sanctum')->post('/activities/delete',[ActivityController::class, 'destroy']);
-Route::middleware('auth:sanctum')->post('/activities/{milestone_id}',[ActivityController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/activities/{milestone_id}',[ActivityController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/myActivities',[ActivityController::class, 'userActivities']);
 
 Route::middleware('auth:sanctum')->post('/teams/add',[TeamController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/teams/edit',[TeamController::class, 'update']);
@@ -50,3 +57,7 @@ Route::middleware('auth:sanctum')->post('/teams/delete',[TeamController::class, 
 Route::middleware('auth:sanctum')->get('/teams',[TeamController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/teams/projects',[TeamController::class, 'ProjectsOfTeam']);
 Route::middleware('auth:sanctum')->get('/teams/employees',[TeamController::class, 'EmployeesPerTeam']);
+
+
+Route::middleware('auth:sanctum')->get('admin/notifications',[NotifictionController::class, 'index']);
+Route::middleware('auth:sanctum')->post('employee/notifications',[NotifictionController::class, 'store']);
