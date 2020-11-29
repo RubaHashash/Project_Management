@@ -17,7 +17,7 @@
 
 */
 import React from "react";
-import  EditEmployee from "AdminLayout/EditEmployee";
+import  EditEmployee from "./EditEmployee";
 // reactstrap components
 import {
   Card,

@@ -23,11 +23,9 @@ import Typography from "views/Typography.js";
 import TableList from "views/Tables.js";
 import Maps from "views/Map.js";
 import UserPage from "views/User.js";
-import ProjectManagerProfile from "ProjectManagerLayout/ProjectManagerProfile"
-import ManageEmployees from "AdminLayout/ManageEmployees"
-import Charts from "AdminLayout/Charts"
-import UpgradeToPro from "views/Upgrade.js";
-import ViewTasks from "ProjectManagerLayout/ViewTasks";
+import ProjectManagerProfile from "../ProjectManagerLayout/ProjectManagerProfile";
+
+import ViewTasks from "../ProjectManagerLayout/ViewTasks";
 var Adminroutes = [
   // {
   //   path: "/dashboard",

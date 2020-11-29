@@ -43,11 +43,11 @@ class CompanyForm extends React.Component {
       })
    }
 
-   renderRedirect = () => {
-      if (this.state.redirect) {
-         return <Redirect to='/admin/dashboard' />
-      }
-   }
+   // renderRedirect = () => {
+   //    if (this.state.redirect) {
+   //       return <Redirect to='/admin' />
+   //    }
+   // }
 
    handleChange = ({ target }) => {
       this.setState({ ...this.state, [target.name]: target.value });
