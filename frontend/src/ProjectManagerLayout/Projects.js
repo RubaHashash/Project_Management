@@ -3,6 +3,7 @@ import axios from "axios";
 import ViewProject from "AdminLayout/ViewProject"
 import AddProject from "AdminLayout/AddProject"
 import EditProject from "AdminLayout/EditProject"
+import {Link} from 'react-router-dom';
 
 
 // reactstrap components
@@ -25,68 +26,7 @@ class Projects extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         projects: [{
-            id: 1,
-            name: "Project One",
-            actual_start_date: "2020-01-01",
-            actual_end_date: "2020-02-04",
-            planned_start_date: "2020-01-05",
-            planned_end_date: "2020-02-02",
-            description: "project one description",
-            planned_budget: "100",
-            team: "Team One",
-         }],
-         /*[
-            {
-               id: 1,
-               name: "Project One",
-               actual_start_date: "2020-01-01",
-               actual_end_date: "2020-02-04",
-               planned_start_date: "2020-01-05",
-               planned_end_date: "2020-02-02",
-               description: "project one description",
-               planned_budget: "100",
-               actual_budget: "",
-               team: "Team One",
-            },
-            {
-               id: 2,
-               name: "Project Tow",
-               actual_start_date: "2020-01-01",
-               actual_end_date: "",
-               planned_start_date: "2020-01-05",
-               planned_end_date: "2020-02-02",
-               description: "project one description",
-               planned_budget: "100",
-               actual_budget: "",
-               team: "Team One",
-            },
-            {
-               id: 3,
-               name: "Project Three",
-               actual_start_date: "",
-               actual_end_date: "",
-               planned_start_date: "2020-01-05",
-               planned_end_date: "2020-02-02",
-               description: "project one description",
-               planned_budget: "100",
-               actual_budget: "",
-               team: "Team One",
-            },
-            {
-               id: 4,
-               name: "Project Four",
-               actual_start_date: "2020-01-01",
-               actual_end_date: "2020-02-04",
-               planned_start_date: "2020-01-05",
-               planned_end_date: "2020-02-02",
-               description: "project one description",
-               planned_budget: "100",
-               actual_budget: "",
-               team: "Team One",
-            },
-
-         ]*/
+         projects: [],
          setAddOpen: false,
          setViewOpen: false,
          setEditOpen: false
@@ -204,6 +144,7 @@ class Projects extends React.Component {
                      < Col md="4" key={project.id} >
                         {console.log('pro',project)}
                         {this.openViewDialog(project)}
+                        <Link to={`/viewtasks/${project.id}`}>
                         < Card className={this.Color(project.actual_start_date, project.actual_end_date)}>
                            <CardHeader>
                               <CardTitle tag="h4">
@@ -239,6 +180,7 @@ class Projects extends React.Component {
                               </ul>
                            </CardBody>
                         </Card>
+                        </Link>
                      </Col>
                   ))}
 

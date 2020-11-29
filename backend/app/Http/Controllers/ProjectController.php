@@ -19,7 +19,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::where('company_id', Auth::user()->company_id)->latest()->simplePaginate($this->pagination);
+        $projects = Project::with('team')->where('company_id', Auth::user()->company_id)->latest()->simplePaginate($this->pagination);
         return response()->json($projects);
     }
 
