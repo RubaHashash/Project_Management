@@ -52,9 +52,6 @@ class Register extends React.Component {
         if(this.state.isAdmin){
         this.props.history.push('/company');
         }
-        else{
-          // this.props.history.push('/admin')
-        }
         //else employee or manager 
         console.log(res.config['data']);
       });

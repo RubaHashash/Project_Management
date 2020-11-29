@@ -17,7 +17,7 @@ import {
   Col,
 } from "reactstrap";
 
-class User extends React.Component {
+class ProjectManagerProfile extends React.Component {
   
   constructor(props){
       super(props);
@@ -96,43 +96,12 @@ class User extends React.Component {
                         </h5>
                       </Col>
                     </Row>
+
+                    <Row>
+                    </Row>
                     
                   </div>
                 </CardFooter>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Teams</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <ul className="list-unstyled team-members">
-                  {
-                      this.state.teams.map(team=>{
-                        return(
-                          <li>
-                          <Row>
-                            <Col md="2" xs="2">
-                              <div className="avatar">
-                                <img
-                                  alt="..."
-                                  className="img-circle img-no-padding img-responsive"
-                                  src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
-                                />
-                              </div>
-                            </Col>
-                            <Col md="7" xs="7">
-                              {team.name} <br />
-                            </Col>
-                          </Row>
-                        </li>
-                        )
-
-                        })
-                  }
-  
-
-                  </ul>
-                </CardBody>
               </Card>
             
             </Col>
@@ -203,110 +172,32 @@ class User extends React.Component {
               </Card>
               </Row>
               <Row>
-              <Card className="card-user">
+              </Row>
+              <Card>
                 <CardHeader>
-                  <CardTitle tag="h5">Edit Company Profile</CardTitle>
+                  <CardTitle tag="h4">Teams</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Form>
-                    <Row>
-                      <Col className="pr-1" md="5">
-                        <FormGroup>
-                          <label>Company name</label>
-                          <Input
-                            defaultValue="Creative Code Inc."
-                            // disabled
-                            placeholder="Company"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="4">
-                        <FormGroup>
-                          <label>Foundation Date</label>
-                          <Input
-                            defaultValue="michael23"
-                            placeholder="date"
-                            type="date"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row style={{marginLeft:"2px"}}>
-                    <Col className="px-1" md="4">
-                        <FormGroup>
-                          <label>Address</label>
-                          <Input
-                            defaultValue="michael23"
-                            placeholder="address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="3">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="michael23"
-                            placeholder="county"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="3">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="michael23"
-                            placeholder="city"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
+                  <ul className="list-unstyled team-members">
+                    <li>
+                      <Row>
+                        <Col md="2" xs="2">
+                          <div className="avatar">
+                            <img
+                              alt="..."
+                              className="img-circle img-no-padding img-responsive"
+                              src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
+                            />
+                          </div>
+                        </Col>
+                        <Col md="7" xs="7">
+                          DJ Khaled 
+                        </Col>
                       </Row>
-                      <Row style={{marginLeft:"2px"}}>
-                      <Col className="pl-1" md="5">
-                        <FormGroup>
-                          <label htmlFor="exampleInputEmail1">
-                            Email address
-                          </label>
-                          <Input placeholder="Email" type="email" />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="4">
-                        <FormGroup>
-                          <label>Phone number</label>
-                          <Input
-                            defaultValue="michael23"
-                            placeholder=""
-                            type="number"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="4">
-                        <FormGroup>
-                          <label>Logo</label>
-                          <Input
-                            type="file"
-                          />
-                        </FormGroup>
-                      </Col>
-                      </Row>
-                    <Row>
-                      <div className="update ml-auto mr-auto">
-                        <Button
-                          className="btn-round"
-                          color="primary"
-                          type="submit"
-                        >
-                          Update 
-                        </Button>
-                      </div>
-                    </Row>
-                  </Form>
+                    </li>
+                  </ul>
                 </CardBody>
               </Card>
-              </Row>
               
             </Col>
 
@@ -317,4 +208,4 @@ class User extends React.Component {
   }
 }
 
-export default User;
+export default ProjectManagerProfile;
