@@ -10,6 +10,7 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import Adminroutes from "routes/AdminRoutes.js";
+import AdminChart from "./AdminCharts";
 
 var ps;
 
@@ -57,6 +58,7 @@ class AdminDashboard extends React.Component {
           bgColor={this.state.backgroundColor}
           activeColor={this.state.activeColor}
         />
+        
         <div className="main-panel" ref={this.mainPanel}>
           <DemoNavbar {...this.props} />
           <Switch>
@@ -70,6 +72,7 @@ class AdminDashboard extends React.Component {
               );
             })}
           </Switch>
+          <AdminChart />
         </div>
         {/* <Footer fluid /> */}
         {/* <FixedPlugin

@@ -32,16 +32,6 @@ class Register extends React.Component {
   }
 }
 
-  SetRedirect = () => {
-    this.setState({
-      redirect: true
-    })
-  }
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/HomePage' />
-    }
-  }
   handleChange = ({ target }) => {
     this.setState({ ...this.state, [target.name]: target.value });
   };
@@ -60,7 +50,10 @@ class Register extends React.Component {
       axios.post("/register",this.state).then(res => {
         sessionStorage.setItem('loggedIn',true);
         if(this.state.isAdmin){
-        this.props.history.push('/admin');
+        this.props.history.push('/company');
+        }
+        else{
+          // this.props.history.push('/admin')
         }
         //else employee or manager 
         console.log(res.config['data']);

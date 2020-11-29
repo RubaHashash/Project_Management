@@ -26,12 +26,13 @@ class CompanyForm extends React.Component {
          name: "",
          logo: "",
          email: "",
-         date: "",
+         date_of_establishment: "",
          address: "",
          city: "",
          country: "",
-         phone: "",
+         phone_number: "",
          error: "",
+         description:"",
          redirect: false
       }
    }
@@ -55,8 +56,8 @@ class CompanyForm extends React.Component {
    onSubmit = e => {
       e.preventDefault();
       var error = [];
-      if (this.state.name === '' || this.state.email === '' || this.state.date === '' || this.state.address === ''
-         || this.state.city === '' || this.state.country === '' || this.state.phone === '') {
+      if (this.state.name === '' || this.state.email === '' || this.state.date_of_establishment === '' || this.state.address === ''
+         || this.state.city === '' || this.state.country === '' || this.state.phone_number === '') {
          this.setState({
             error: 'Please enter all required data!',
          });
@@ -69,9 +70,9 @@ class CompanyForm extends React.Component {
       }
 
       axios.defaults.withCredentials = true;
-      axios.post("/company", this.state).then(res => {
+      axios.post("/api/companies/add", this.state).then(res => {
          console.log("response:", res);
-         this.props.history.push('/HomePage');
+         this.props.history.push('/admin');
 
       }).catch(error => {
          console.log(error);
@@ -135,11 +136,11 @@ class CompanyForm extends React.Component {
                                  </Col>
                                  <Col className="pl-1" md="4">
                                     <FormGroup>
-                                       <label>Date Of Establishment</label>
+                                       <label>date of establishment </label>
                                        <Input
-                                          placeholder="Date of establishment..."
+                                          placeholder="date of establishment..."
                                           type="date"
-                                          name="date"
+                                          name="date_of_establishment"
                                           onChange={this.handleChange}
                                        />
                                     </FormGroup>
@@ -183,10 +184,10 @@ class CompanyForm extends React.Component {
                                  </Col>
                                  <Col className="pl-1" md="4">
                                     <FormGroup>
-                                       <label>Phone Number</label>
-                                       <Input placeholder="Phone number..."
+                                       <label>phone number</label>
+                                       <Input placeholder="phone number..."
                                           type="number"
-                                          name="phone"
+                                          name="phone_number"
                                           onChange={this.handleChange} />
                                     </FormGroup>
                                  </Col>
@@ -204,13 +205,13 @@ class CompanyForm extends React.Component {
                                  </Col>
                               </Row>
                               <Row>
-                                 <div className="update ml-auto mr-auto">
+                                 <div className="update_of_establishment ml-auto mr-auto">
                                     <Button
                                        className="btn-round"
                                        color="primary"
                                        type="submit"
                                     >
-                                       Update Profile
+                                       Add 
                                     </Button>
                                  </div>
                               </Row>

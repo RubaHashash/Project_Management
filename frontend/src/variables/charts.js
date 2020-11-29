@@ -103,7 +103,6 @@ const dashboard24HoursPerformanceChart = {
     },
   },
 };
-
 const dashboardEmailStatisticsChart = {
   data: (canvas) => {
     return {
