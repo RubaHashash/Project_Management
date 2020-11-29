@@ -26,6 +26,7 @@ import UserPage from "views/User.js";
 import AdminProfile from "AdminLayout/AdminProfile"
 import ManageEmployees from "AdminLayout/ManageEmployees"
 import AdminCharts from "AdminLayout/AdminCharts"
+import Projects from "AdminLayout/Projects"
 import UpgradeToPro from "views/Upgrade.js";
 var Adminroutes = [
   // {
@@ -47,6 +48,14 @@ var Adminroutes = [
     name: "Manage Employees",
     icon: "nc-icon nc-badge",
     component: ManageEmployees,
+    layout: "/admin",
+  },
+
+  {
+    path: "/projects",
+    name: "Projects",
+    icon: "nc-icon nc-badge",
+    component: Projects,
     layout: "/admin",
   },
 
