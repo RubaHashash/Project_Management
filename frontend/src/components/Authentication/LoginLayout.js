@@ -37,15 +37,28 @@ class Login extends React.Component {
   }
   getuser=()=>{
     axios.defaults.withCredentials=true;
-     axios.get('/api/user').then(response=>{
+     axios.get('/api/users/status').then(response=>{
     console.log(response)
-    if(response.data.isManager){
+    if(response.data.role==="admin"){
       if(response.data.company_id){
+        sessionStorage.setItem('role','admin');
           this.props.history.push('/admin');}
        else{
            this.props.history.push('/company')
     }
   }
+  if(response.data.role==="manager"){
+    sessionStorage.setItem('role','manager');
+    this.props.history.push('/projectManager');
+  }
+  // else{
+  //    if(response.data.company_id){
+    // sessionStorage.setItem('role','employee');
+  //         this.props.history.push('/admin');} // dashboard employee
+  //      else{
+  //          this.props.history.push('/chooseCompany') 
+  //   }
+  // }
   }).catch(error=>{
     console.log(error);
   });
@@ -102,6 +115,7 @@ class Login extends React.Component {
   };
 
   render(){
+    
   return (
     <div className="App">
              <Card className="card-user" style={{width:"30%",marginLeft:"35%",marginTop:"100px"}}>     		

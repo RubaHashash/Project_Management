@@ -23,26 +23,94 @@ class User extends React.Component {
       super(props);
       this.state={
         teams:[],
+        name:"",
+        email:"",
+        companyName:"",
+        companyId:"",
+            companyAddress:"",
+            companyCity:"",
+            companyCountry:"",
+            companyCreatedAt:"",
+            companyEmail:"",
+            companyDesc:"",
+            companyNum:""
   }
 }
   
   componentDidMount() {
-
+     axios.defaults.withCredentials=true;
+       axios.get('/api/user').then((response)=>{
+          this.setState({
+            name:response.data.name,
+            email:response.data.email
+          })
+       })
     this.getTeams()
+    this.getCompany();
   }
 
   getTeams = ()=>{
     axios.defaults.withCredentials=true;
        axios.get('/api/teams').then((response)=>{
-          return response.data.teams;
+          return response.data.data
         }).then((team)=>{
-          console.log("reponse",team);
+          // console.log("reponse",team);
 
           this.setState({
            teams:team});
         });
   } 
+  getCompany=()=>{
+    axios.defaults.withCredentials=true;
+       axios.get('/api/companies').then((response)=>{
+          // console.log(response.data)
+          return response.data[0]
+        }).then((company)=>{
+          // console.log(company)
+          this.setState({
+           companyName:company.name,
+          companyAddress:company.address,
+          companyCity:company.city,
+          companyCountry:company.country,
+          companyCreatedAt:company.date_of_establishment,
+          companyEmail:company.email,
+          companyNum:company.phone_number,
+          companyId:company.id,
+          companyDesc:company.description
+        });
+        });
+  }
+  handlechangeall = (event) =>{
+  this.setState ( { [event.target.name] :event.target.value  } )
+}
 
+  updateCompany=()=>{
+    let formData={
+      id:this.state.companyId,
+      name:this.state.companyName,
+      address:this.state.companyAddress,
+      city:this.state.companyCity,
+      country:this.state.companyCountry,
+      email:this.state.companyEmail,
+      phone_number:this.state.companyNum,
+      description:this.state.companyDesc,
+      date_of_establishment:this.state.companyCreatedAt
+    }
+    axios.defaults.withCredentials=true;
+       axios.post('/api/companies/edit',formData).then((response)=>{
+        // console.log(response);
+      })
+  }
+editProfile=()=>{
+  let formData1={
+    name:this.state.name,
+    email:this.state.email
+  }
+    axios.defaults.withCredentials=true;
+       axios.post('/api/users/edit',formData1).then((response)=>{
+        console.log(response);
+      })
+}
   render() {
     return (
       <>
@@ -59,46 +127,14 @@ class User extends React.Component {
                 <CardBody>
                   <div className="author">
                     <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        className="avatar border-gray"
-                        src={require("assets/img/mike.jpg")}
-                      />
-                      <h5 className="title">Chet Faker</h5>
+                      
+                      <h5 className="title">Admin</h5>
                     </a>
                     <p className="description">@chetfaker</p>
-                  </div>
-                  <p className="description text-center">
-                    "I like the way you work it <br />
-                    No diggity <br />I wanna bag it up"
-                  </p>
+                    <h3>{this.state.name}</h3>
+                    <p>{this.state.email}</p>
+                 </div>
                 </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="button-container">
-                    <Row>
-                      <Col className="ml-auto" lg="3" md="6" xs="6">
-                        <h5>
-                          12 <br />
-                          <small>Files</small>
-                        </h5>
-                      </Col>
-                      <Col className="ml-auto mr-auto" lg="4" md="6" xs="6">
-                        <h5>
-                          2GB <br />
-                          <small>Used</small>
-                        </h5>
-                      </Col>
-                      <Col className="mr-auto" lg="3">
-                        <h5>
-                          24,6$ <br />
-                          <small>Spent</small>
-                        </h5>
-                      </Col>
-                    </Row>
-                    
-                  </div>
-                </CardFooter>
               </Card>
               <Card>
                 <CardHeader>
@@ -150,7 +186,7 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Company (disabled)</label>
                           <Input
-                            defaultValue="Creative Code Inc."
+                            defaultValue={this.state.companyName}
                             disabled
                             placeholder="Company"
                             type="text"
@@ -161,7 +197,9 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Username</label>
                           <Input
-                            defaultValue="michael23"
+                            defaultValue={this.state.name}
+                            name="name"
+                            onChange={this.handlechangeall}
                             placeholder="Username"
                             type="text"
                           />
@@ -172,7 +210,9 @@ class User extends React.Component {
                           <label htmlFor="exampleInputEmail1">
                             Email address
                           </label>
-                          <Input placeholder="Email" type="email" />
+                          <Input placeholder="Email" defaultValue={this.state.email}
+                            name="email"
+                            onChange={this.handlechangeall} type="email" />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -193,6 +233,7 @@ class User extends React.Component {
                           className="btn-round"
                           color="primary"
                           type="submit"
+                          onClick={this.editProfile}
                         >
                           Update 
                         </Button>
@@ -214,9 +255,11 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Company name</label>
                           <Input
-                            defaultValue="Creative Code Inc."
+                            defaultValue={this.state.companyName}
                             // disabled
                             placeholder="Company"
+                            name="companyName"
+                            onChange={this.handlechangeall}
                             type="text"
                           />
                         </FormGroup>
@@ -225,8 +268,10 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Foundation Date</label>
                           <Input
-                            defaultValue="michael23"
+                            defaultValue={this.state.companyCreatedAt}
                             placeholder="date"
+                            name="date_of_establishment"
+                            onChange={this.handlechangeall}
                             type="date"
                           />
                         </FormGroup>
@@ -237,7 +282,9 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Address</label>
                           <Input
-                            defaultValue="michael23"
+                            defaultValue={this.state.companyAddress}
+                            name="companyAddress"
+                            onChange={this.handlechangeall}
                             placeholder="address"
                             type="text"
                           />
@@ -247,7 +294,9 @@ class User extends React.Component {
                         <FormGroup>
                           <label>Country</label>
                           <Input
-                            defaultValue="michael23"
+                            defaultValue={this.state.companyCountry}
+                            name="companyCountry"
+                            onChange={this.handlechangeall}
                             placeholder="county"
                             type="text"
                           />
@@ -257,7 +306,9 @@ class User extends React.Component {
                         <FormGroup>
                           <label>City</label>
                           <Input
-                            defaultValue="michael23"
+                            defaultValue={this.state.companyCity}
+                            name="companyCity"
+                            onChange={this.handlechangeall}
                             placeholder="city"
                             type="text"
                           />
@@ -270,14 +321,17 @@ class User extends React.Component {
                           <label htmlFor="exampleInputEmail1">
                             Email address
                           </label>
-                          <Input placeholder="Email" type="email" />
+                          <Input placeholder="Email" name="companyEmail"
+                            onChange={this.handlechangeall} defaultValue={this.state.companyEmail} type="email" />
                         </FormGroup>
                       </Col>
                       <Col className="px-1" md="4">
                         <FormGroup>
                           <label>Phone number</label>
                           <Input
-                            defaultValue="michael23"
+                            defaultValue={this.state.companyNum}
+                            name="companyNum"
+                            onChange={this.handlechangeall}
                             placeholder=""
                             type="number"
                           />
@@ -298,6 +352,7 @@ class User extends React.Component {
                           className="btn-round"
                           color="primary"
                           type="submit"
+                          onClick={this.updateCompany}
                         >
                           Update 
                         </Button>

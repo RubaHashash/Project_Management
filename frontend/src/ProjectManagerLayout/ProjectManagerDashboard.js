@@ -3,12 +3,10 @@ import React from "react";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 import { Route, Switch } from "react-router-dom";
-
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
-
 import ProjectManagerRoutes from "routes/ProjectManagerRoutes";
 
 var ps;
@@ -46,11 +44,13 @@ class ProjectManagerDashboard extends React.Component {
   handleBgClick = (color) => {
     this.setState({ backgroundColor: color });
   };
+     
   render() {
+     if(sessionStorage.getItem('loggedIn')){
     return (
       
       <div className="wrapper">
-        
+       
         <Sidebar
           {...this.props}
           routes={ProjectManagerRoutes}
@@ -71,15 +71,17 @@ class ProjectManagerDashboard extends React.Component {
             })}
           </Switch>
         </div>
-        {/* <Footer fluid /> */}
-        {/* <FixedPlugin
-          bgColor={this.state.backgroundColor}
-          activeColor={this.state.activeColor}
-          handleActiveClick={this.handleActiveClick}
-          handleBgClick={this.handleBgClick}
-        /> */}
+    
       </div>
     );
+  }
+else{
+      return(
+        <div>
+          {this.props.history.push('/login')};
+        </div>
+      );
+}
   }
 }
 

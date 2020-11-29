@@ -28,13 +28,13 @@ import ManageEmployees from "AdminLayout/ManageEmployees"
 import AdminCharts from "AdminLayout/AdminCharts"
 import UpgradeToPro from "views/Upgrade.js";
 var Adminroutes = [
-  // {
-  //   path: "/dashboard",
-  //   name: "Dashboard",
-  //   icon: "nc-icon nc-bank",
-  //   component: Dashboard,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: "nc-icon nc-bank",
+    component: AdminCharts,
+    layout: "/admin",
+  },
   {
     path: "/user-page",
     name: "User Profile",

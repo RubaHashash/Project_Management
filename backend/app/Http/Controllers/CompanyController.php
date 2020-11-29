@@ -12,11 +12,11 @@ class CompanyController extends Controller
 {
     private $pagination = 5;
     protected $UserController;
-    public function __construct(ChildController $ChildController)
-    {
-        $this->UserController = $UserController;
-    }
-    
+    // public function __construct(ChildController $ChildController)
+    // {
+    //     $this->UserController = $UserController;
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +24,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::latest()->simplePaginate($this->pagination);
+        $companies = Company::where('admin_id', Auth::user()->id)->get();
         return response()->json($companies);
     }
 
@@ -67,7 +67,6 @@ class CompanyController extends Controller
         $this->UserController->makeAdmin($company->id);
 
         return json_encode($company);
-
     }
 
     /**
@@ -99,15 +98,12 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request)
     {
-        /*request()->validate([
-            'amount' => ['required', 'regex:pattern']
-        ]);*/
 
         $company = Company::findOrFail($request->id);
 
-        if($company->admin_id != Auth::id()){
+        if ($company->admin_id != Auth::id()) {
             return json_encode(0);
         }
 
@@ -129,11 +125,11 @@ class CompanyController extends Controller
     {
         $company = Company::findOrFail($request->company_id);
 
-        if($company->admin_id != Auth::id()){
+        if ($company->admin_id != Auth::id()) {
             return json_encode(0);
         }
 
-        if(!User::findOrFail($request->new_admin_id)){
+        if (!User::findOrFail($request->new_admin_id)) {
             //new admin doesn't exist
             return json_encode(0);
         }
@@ -153,8 +149,8 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        if(Company::find(request('id'))->admin_id === Auth::id()){
-            $success = Company::where('id',request('id'))->delete();
+        if (Company::find(request('id'))->admin_id === Auth::id()) {
+            $success = Company::where('id', request('id'))->delete();
             return json_encode($success);
         }
         return json_encode(0);

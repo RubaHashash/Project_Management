@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
@@ -24,18 +25,29 @@ class UserController extends Controller
         $user = Auth::user();
         $role = 'employee';
 
-        $team = Team::where('manager_id',Auth::id())->get();
+        $team = Team::where('manager_id', Auth::id())->get();
 
-        if($team){
+        if ($team) {
             $role = 'manager';
         }
 
-        if($user->is_Manager){// is Manager azde admin
+        if ($user->is_Manager) { // is Manager azde admin
             $role = 'admin';
         }
 
-        $response = array('role'=>$role,'company_id'=>Auth::user()->company_id,'team_id'=>Auth::user()->team_id);
-        
+        $response = array('role' => $role, 'company_id' => Auth::user()->company_id, 'team_id' => Auth::user()->team_id);
+
         return json_encode($response);
+    }
+    public function edit(Request $request)
+    {
+        $user = User::findOrFail(Auth::id());
+
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+
+        $user->save();
+
+        return json_encode($user);
     }
 }
