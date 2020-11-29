@@ -48,6 +48,7 @@ class AdminDashboard extends React.Component {
     this.setState({ backgroundColor: color });
   };
   render() {
+     if(sessionStorage.getItem('loggedIn')){
     return (
       
       <div className="wrapper">
@@ -72,18 +73,19 @@ class AdminDashboard extends React.Component {
               );
             })}
           </Switch>
-          <AdminChart />
+          {/* <AdminChart /> */}
         </div>
-        {/* <Footer fluid /> */}
-        {/* <FixedPlugin
-          bgColor={this.state.backgroundColor}
-          activeColor={this.state.activeColor}
-          handleActiveClick={this.handleActiveClick}
-          handleBgClick={this.handleBgClick}
-        /> */}
       </div>
     );
+  }else{
+      return(
+        <div>
+          {this.props.history.push('/login')};
+        </div>
+      );
+}
   }
+
 }
 
 export default AdminDashboard;

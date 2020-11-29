@@ -26,7 +26,7 @@ class Register extends React.Component {
       email: "",
       name:"",
     password: "",
-    isAdmin:false,
+    isManager:false,
     password_confirmation:"",
     redirect:false
   }
@@ -38,18 +38,18 @@ class Register extends React.Component {
   handleIsAdim =()=>{
 
     this.setState({
-      isAdmin:!this.state.isAdmin
+      isManager:!this.state.isManager
     })
-    
+
   }
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state.isAdmin);
+    console.log(this.state.isManager);
     axios.defaults.withCredentials=true;
     axios.get("/sanctum/csrf-cookie").then(response => {
       axios.post("/register",this.state).then(res => {
         sessionStorage.setItem('loggedIn',true);
-        if(this.state.isAdmin){
+        if(this.state.isManager){
         this.props.history.push('/company');
         }
         //else employee or manager 
@@ -102,12 +102,10 @@ class Register extends React.Component {
                </Row>
                <Row>
                <div class="custom-control custom-switch">
-  <input type="checkbox" class="custom-control-input" onChange={this.handleIsAdim} id="customSwitches" />
-  <label class="custom-control-label"  for="customSwitches">Admin</label>
-</div>
-
-
-               </Row>
+              <input type="checkbox" class="custom-control-input" onChange={this.handleIsAdim} id="customSwitches" />
+              <label class="custom-control-label"  for="customSwitches">Admin</label>
+            </div>
+</Row>
                 <Row>
                  <div className="update ml-auto mr-auto">
                    <Button

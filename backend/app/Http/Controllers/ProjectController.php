@@ -24,11 +24,11 @@ class ProjectController extends Controller
     }
 
 
-  /*  public function Budget(){
+    /*  public function Budget(){
         $budget=Project::get();
         return response()->json($budget);
     }*/
-   
+
 
     /**
      * Show the form for creating a new resource.
@@ -58,7 +58,7 @@ class ProjectController extends Controller
 
         $team = Team::findOrFail(request('team_id'));
 
-        if(Auth::id() === $company->admin_id || Auth::id() === $team->manager_id){
+        if (Auth::id() === $company->admin_id || Auth::id() === $team->manager_id) {
 
             $project = new Project();
 
@@ -76,7 +76,6 @@ class ProjectController extends Controller
         }
 
         return json_encode(0);
-        
     }
 
     /**
@@ -112,7 +111,7 @@ class ProjectController extends Controller
     {
         $project = Project::with('team')->with('company')->findOrFail($request->id);
 
-        if(Auth::id() === $project->company->admin_id || Auth::id() === $tproject->team->manager_id){
+        if (Auth::id() === $project->company->admin_id || Auth::id() === $project->team->manager_id) {
             $project->name = request('name');
             $project->planned_start_date = request('planned_start_date');
             $project->planned_end_date = request('planned_end_date');
@@ -121,11 +120,10 @@ class ProjectController extends Controller
 
             $project->save();
 
-            return json_encode(1);    
+            return json_encode(1);
         }
 
         return json_encode(0);
-
     }
 
     /**
@@ -138,11 +136,10 @@ class ProjectController extends Controller
     { ///can be fixed in eloquents
         $project = Project::with('team')->with('company')->findOrFail(request('id'));
 
-        if(Auth::id() === $project->company->admin_id || Auth::id() === $tproject->team->manager_id){
-            $success = Project::where('id',request('id'))->delete();
+        if (Auth::id() === $project->company->admin_id || Auth::id() === $project->team->manager_id) {
+            $success = Project::where('id', request('id'))->delete();
             return json_encode($success);
         }
         return json_encode(0);
-        
     }
 }
