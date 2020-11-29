@@ -32,16 +32,6 @@ class Register extends React.Component {
   }
 }
 
-  SetRedirect = () => {
-    this.setState({
-      redirect: true
-    })
-  }
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/HomePage' />
-    }
-  }
   handleChange = ({ target }) => {
     this.setState({ ...this.state, [target.name]: target.value });
   };

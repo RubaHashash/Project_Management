@@ -35,7 +35,22 @@ class Login extends React.Component {
   componentDidMount() {
 
   }
-
+  getuser=()=>{
+    axios.defaults.withCredentials=true;
+     axios.get('/api/user').then(response=>{
+    console.log(response)
+    if(response.data.isManager){
+      if(response.data.company_id){
+          this.props.history.push('/admin');}
+       else{
+           this.props.history.push('/company')
+    }
+  }
+  }).catch(error=>{
+    console.log(error);
+  });
+    
+  }
   renderRedirect = () => {
     if (this.state.redirect) {
       return <Redirect to='/Register' />
@@ -76,7 +91,8 @@ class Login extends React.Component {
       axios.post("/login",this.state).then(res => {
        console.log("logged in :",res);
        sessionStorage.setItem('loggedIn',true);
-       this.props.history.push('/admin');
+       this.getuser();
+       
       
       }).catch(error=>{
         console.log(error);
@@ -124,17 +140,14 @@ class Login extends React.Component {
                 <Row>
                   <div className="update ml-auto mr-auto">
                     <p>Not Registered?
-							<a href="/register" style={{ marginLeft: "7px" }}>Create an account</a>
-
-						</p>
+						      	<a href="/register" style={{ marginLeft: "7px" }}>Create an account</a>
+                  	</p>
                   </div>
                     </Row>
-
-              </Form>
+                </Form>
             </CardBody>
           </Col>
         </Card>
-
       </div>
     );
   }
