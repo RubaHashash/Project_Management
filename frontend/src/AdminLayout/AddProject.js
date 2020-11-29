@@ -29,28 +29,37 @@ class AddProject extends React.Component {
          open: false,
          setOpen: false,
          name: "",
-         actual_start_date: "",
-         actual_end_date: "",
          planned_start_date: "",
          planned_end_date: "",
-         description: "",
+         project_description: "",
          planned_budget: "",
-         actual_budget: "",
          team_id: "",
+         company_id:"",
+         teams:[],
+         team:""
 
       }
    }
+   getTeams(){
+    axios.defaults.withCredentials=true;
+        axios.get('/api/teams')
+         .then(response => {
+            console.log(response.data.data)
+              this.setState({
+                  teams: response.data.data,
+              });
+      })
+      .catch(error => {
+          if (error.response) {
+              console.log(error.response);
+            }
+      });
+  }
 
-   // SetRedirect = () => {
-   //    this.setState({
-   //       redirect: true
-   //    })
-   // }
-   // renderRedirect = () => {
-   //    if (this.state.redirect) {
-   //       return <Redirect to='/HomePage' />
-   //    }
-   // }
+ componentDidMount() {
+  this.getTeams();
+   this.getUser();
+  }
 
    handleChange = ({ target }) => {
       this.setState({ ...this.state, [target.name]: target.value });
@@ -59,11 +68,21 @@ class AddProject extends React.Component {
    onSubmit = e => {
       e.preventDefault();
       axios.defaults.withCredentials = true;
-      axios.post("/project/add", this.state).then(response => {
+      console.log(this.state)
+      axios.post("/api/projects/add", this.state).then(response => {
          console.log(response);
       });
    };
-
+   getUser=()=>{
+       axios.defaults.withCredentials = true;
+      // console.log(this.state)
+      axios.get("/api/user").then(response => {
+         console.log(response);
+         this.setState({
+            company_id:response.data.company_id
+         })
+   })
+}
    handleClose = () => {
       this.setState({
          setOpen: false
@@ -81,25 +100,30 @@ class AddProject extends React.Component {
                   <TextField
                      autoFocus
                      margin="dense"
-                     id="name"
+                     name="name"
                      label="Project name.."
                      type="text"
                      onChange={this.handleChange}
                      fullWidth
                   />
-                  <TextField
-                     autoFocus
-                     margin="dense"
-                     id="team"
-                     label="Team"
-                     type="text"
+                   <select  
+                     name="team_id" 
+                      value={this.state.team}
+                      label="Choose a team"
                      onChange={this.handleChange}
-                     fullWidth
-                  />
+                     >
+                     <option value="">team</option>
+                      {
+                        this.state.teams.map((item)=>{
+                        return <option value={item.id}
+                         key={item.id} >{item.name}</option>
+                         })
+                       }
+                    </select>
                   <TextField
                      autoFocus
                      margin="dense"
-                     id="description"
+                     name="project_description"
                      label="Description"
                      type="text"
                      onChange={this.handleChange}
@@ -108,7 +132,7 @@ class AddProject extends React.Component {
                   <TextField
                      autoFocus
                      margin="dense"
-                     id="planned_start_date"
+                     name="planned_start_date"
                      label="Planned start date"
                      type="date"
                      onChange={this.handleChange}
@@ -117,44 +141,18 @@ class AddProject extends React.Component {
                   <TextField
                      autoFocus
                      margin="dense"
-                     id="planned_end_date"
+                     name="planned_end_date"
                      label="Planned end date"
                      type="date"
                      onChange={this.handleChange}
                      fullWidth
                   />
+                  
                   <TextField
                      autoFocus
                      margin="dense"
-                     id="actual_start_date"
-                     label="Actual start date"
-                     type="date"
-                     onChange={this.handleChange}
-                     fullWidth
-                  />
-                  <TextField
-                     autoFocus
-                     margin="dense"
-                     id="actual_end_date"
-                     label="Actual end date"
-                     type="date"
-                     onChange={this.handleChange}
-                     fullWidth
-                  />
-                  <TextField
-                     autoFocus
-                     margin="dense"
-                     id="planned_budget"
+                     name="planned_budget"
                      label="Planned budget"
-                     type="number"
-                     onChange={this.handleChange}
-                     fullWidth
-                  />
-                  <TextField
-                     autoFocus
-                     margin="dense"
-                     id="actual_budget"
-                     label="Actual budget"
                      type="number"
                      onChange={this.handleChange}
                      fullWidth
