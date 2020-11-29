@@ -1,6 +1,12 @@
 
 import React from "react";
 import axios from "axios";
+import Sidebar from "components/Sidebar/Sidebar.js";
+import ProjectManagerRoutes from "routes/ProjectManagerRoutes";
+import { Route, Switch } from "react-router-dom";
+import {Link} from 'react-router-dom';
+import DemoNavbar from "components/Navbars/DemoNavbar.js";
+
 
 // reactstrap components
 import {
@@ -31,10 +37,11 @@ class ViewTasks extends React.Component {
   }
 
   getTasks = () =>{
-    axios.get('/api/milestones/1')
+   // console.log('/api/milestones/'.concat(this.props.match.params.id));
+    axios.get('/api/milestones/'.concat(this.props.match.params.id))
     .then(response=>{
         console.log(response.data);
-        this.setState({milestones:response.data});
+        this.setState({milestones:response.data.data});
     });
   }
 
@@ -42,15 +49,36 @@ class ViewTasks extends React.Component {
   render() {
     return (
       <>
+      <Sidebar
+          {...this.props}
+          routes={ProjectManagerRoutes}
+          bgColor={this.state.backgroundColor}
+          activeColor={this.state.activeColor}
+        />
+        <div className="main-panel" ref={this.mainPanel}>
+          <DemoNavbar {...this.props} />
+          <Switch>
+            {ProjectManagerRoutes.map((prop, key) => {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                  component={prop.component}
+                  key={key}
+                />
+              );
+            })}
+          </Switch>
+
         <div className="content">
           <Row>
-
-      
             <Col md="12">
               <Row >
+              {this.state.milestones.map(milestone => ( 
+              <Col  key={milestone.id}>
+              <Link to={`/viewactivities/${milestone.id}`}>
               <Card className="card-user"  style={{ marginLeft: "30px", width: "40%", height: "150px", overflow: "hidden"}}>
                 <CardHeader>
-                  <CardTitle tag="h3"><a href="/activity">Task 1</a></CardTitle>
+              <CardTitle tag="h3">{milestone.name}</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <Form>
@@ -58,7 +86,7 @@ class ViewTasks extends React.Component {
                     <Col className="pl-1" md="12">
                         <FormGroup>
                           <label>
-                            Task Description here
+                          {milestone.description}
                           </label>
                         </FormGroup>
                       </Col>
@@ -66,36 +94,20 @@ class ViewTasks extends React.Component {
                   </Form>
                 </CardBody>
               </Card>
+              </Link>
 
+              </Col>
 
-              <Card className="card-user"  style={{ marginLeft: "30px", width: "40%", height: "150px", overflow: "hidden"}}>
-                <CardHeader>
-                  <CardTitle tag="h3"><a href="/activity">Task 2</a></CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Form>
-                    <Row>
-                    <Col className="pl-1" md="12">
-                        <FormGroup>
-                          <label>
-                            Task Description here
-                          </label>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Form>
-                </CardBody>
-              </Card>
-
+              ))}
 
               </Row>
               <Row>
               </Row>
               
-              
             </Col>
 
           </Row>
+        </div>
         </div>
       </>
     );

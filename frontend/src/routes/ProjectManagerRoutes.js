@@ -25,7 +25,7 @@ import Maps from "views/Map.js";
 import UserPage from "views/User.js";
 import ProjectManagerProfile from "../ProjectManagerLayout/ProjectManagerProfile";
 
-import ViewTasks from "../ProjectManagerLayout/ViewTasks";
+import Projects from "../ProjectManagerLayout/Projects";
 var Adminroutes = [
   // {
   //   path: "/dashboard",
@@ -42,10 +42,10 @@ var Adminroutes = [
     layout: "/projectManager",
   },
   {
-    path: "/ViewTasks",
+    path: "/projects",
     name: "Projects",
     icon: "nc-icon nc-badge",
-    component: ViewTasks,
+    component: Projects,
     layout: "/projectManager",
   },
 

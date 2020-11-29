@@ -6,6 +6,7 @@ import { Route, Switch } from "react-router-dom";
 
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
+import {Link} from 'react-router-dom';
 
 import ProjectManagerRoutes from "routes/ProjectManagerRoutes";
 // reactstrap components
@@ -28,15 +29,22 @@ class ViewActivity extends React.Component {
   constructor(props){
       super(props);
       this.state={
-        
+        activities:[]
   }
 }
   
   componentDidMount() {
-
+    this.getActivities();
   }
 
-
+  getActivities = () =>{
+    console.log('/api/milestones/'.concat(this.props.match.params.id));
+    axios.get('/api/activities/'.concat(this.props.match.params.id))
+    .then(response=>{
+      console.log("khbdckhbsadhkcbkdsbckhadwbcfkdawb",response.data);
+      this.setState({activities:response.data.data});
+    });
+  }
   render() {
     return (
       <>
@@ -67,84 +75,32 @@ class ViewActivity extends React.Component {
       
             <Col md="12">
               <Row >
+              {this.state.activities.map(activity => ( 
+                    <Col  key={activity.id}>
+                    <Link to={`/viewactivities/${activity.id}`}>
               <Card className="card-user"  style={{ marginLeft: "30px", width: "200px", height: "200px", overflow: "hidden"}}>
                 <CardHeader>
-                  <CardTitle tag="h3">Activity 1</CardTitle>
+                  <CardTitle tag="h3">{activity.name}</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <Form>
                     <Row>
+                    
                     <Col className="pl-1" md="12">
                         <FormGroup>
                           <label>
-                            Activity Description here
+                            {activity.description}
                           </label>
                         </FormGroup>
                       </Col>
+                     
                     </Row>
                   </Form>
                 </CardBody>
               </Card>
-
-
-              <Card className="card-user"  style={{ marginLeft: "30px", width: "200px", height: "200px", overflow: "hidden"}}>
-                <CardHeader>
-                  <CardTitle tag="h3">Activity 2</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Form>
-                    <Row>
-                    <Col className="pl-1" md="12">
-                        <FormGroup>
-                          <label>
-                            Activity Description here
-                          </label>
-                        </FormGroup>
+              </Link>
                       </Col>
-                    </Row>
-                  </Form>
-                </CardBody>
-              </Card>
-
-              <Card className="card-user"  style={{ marginLeft: "30px", width: "200px", height: "200px", overflow: "hidden"}}>
-                <CardHeader>
-                  <CardTitle tag="h3">Activity 3</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Form>
-                    <Row>
-                    <Col className="pl-1" md="12">
-                        <FormGroup>
-                          <label>
-                            Activity Description here
-                          </label>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Form>
-                </CardBody>
-              </Card>
-
-              <Card className="card-user"  style={{ marginLeft: "30px", width: "200px", height: "200px", overflow: "hidden"}}>
-                <CardHeader>
-                  <CardTitle tag="h3">Activity 4</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Form>
-                    <Row>
-                    <Col className="pl-1" md="12">
-                        <FormGroup>
-                          <label>
-                            Activity Description here
-                          </label>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Form>
-                </CardBody>
-              </Card>
-
-
+                    ))}
               </Row>
               <Row>
               </Row>
