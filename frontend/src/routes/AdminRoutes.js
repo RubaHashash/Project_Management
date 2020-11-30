@@ -68,20 +68,21 @@ var Adminroutes = [
   //   layout: "/admin",
   // },
 
-  {
-    path: "/teams",
-    name: "Teams",
-    icon: "nc-icon nc-tile-56",
-    component: Teams,
-    layout: "/admin",
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "nc-icon nc-bell-55",
-    component: Notifications,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/tables",
+  //   name: "Projects",
+  //   icon: "nc-icon nc-tile-56",
+  //   component: TableList,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/notifications",
+  //   name: "Notifications",
+  //   icon: "nc-icon nc-bell-55",
+  //   component: Notifications,
+  //   layout: "/admin",
+  // },
+
 
 
   // {
