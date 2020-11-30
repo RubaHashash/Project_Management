@@ -3,8 +3,6 @@ import axios from "axios";
 import ViewProject from "AdminLayout/ViewProject"
 import AddProject from "AdminLayout/AddProject"
 import EditProject from "AdminLayout/EditProject"
-
-
 // reactstrap components
 import {
    Button,
@@ -19,9 +17,7 @@ import {
    Row,
    Col,
 } from "reactstrap";
-
 class Projects extends React.Component {
-
    constructor(props) {
       super(props);
       this.state = {
@@ -29,25 +25,20 @@ class Projects extends React.Component {
           setAddOpen: false,
          setViewOpen: false,
          setEditOpen: false
-
       }
    }
-
    componentDidMount() {
       this.getProjects()
    }
-
    getProjects = () => {
       axios.defaults.withCredentials = true;
       axios.get('/api/projects').then((response) => {
          // console.log("response", response.data.data);
-
          this.setState({
             projects: response.data.data
          });
       });
    }
-
    Status = (start, end) => {
       let src;
       if (end) {
@@ -75,43 +66,33 @@ class Projects extends React.Component {
       }
       return color
    }
-
    handleClickOpen = () => {
       this.setState({ setAddOpen: true })
    }
-
    closeDialog = () => {
       this.setState({ setAddOpen: false });
    };
-
    handleViewClickOpen = () => {
       this.setState({ setViewOpen: true })
    }
-
    handleEditClickOpen = () => {
       this.setState({ setEditOpen: true })
    }
-
    closeViewDialog = () => {
       this.setState({ setViewOpen: false });
    };
-
    closeEditDialog = () => {
       this.setState({ setEditOpen: false });
    };
-
    openViewDialog = (project) => {
       if (this.state.setViewOpen) {
          return <ViewProject openD={this.state.setViewOpen} closeD={this.closeViewDialog} project={project} />
       }
    }
-
    Edit = (end_date) => {
       if (end_date === null)
          return <i className="nc-icon nc-ruler-pencil" style={{ marginLeft: "90px" }} onClick={this.handleEditClickOpen} />
-
    }
-
    openEditDialog = (project) => {
       if (this.state.setEditOpen) {
          return <EditProject openD={this.state.setEditOpen} closeD={this.closeEditDialog} project={project} />
@@ -126,12 +107,10 @@ class Projects extends React.Component {
          console.log(response);
    })
    }
-
    render() {
       if (this.state.setAddOpen) {
          return <AddProject openD={this.state.setAddOpen} closeD={this.closeDialog} />
       }
-
       return (
          <>
             <div className="content">
@@ -140,14 +119,13 @@ class Projects extends React.Component {
                      <Button onClick={this.handleClickOpen} >
                         Add Project
                      </Button>
-
                   </div>
                </Row>
                <Row>
                   <br></br>
                </Row>
                <Row>
-                  {this.state.projects.map(project => ( 
+                  {this.state.projects.map(project => (
                      < Col md="4" key={project.id} >
                         {/* {console.log('pro',project)} */}
                         {this.openViewDialog(project)}
@@ -160,7 +138,6 @@ class Projects extends React.Component {
                                     {this.openEditDialog(project)}
                                     <i  onClick={this.DeleteProject(project.id)} className="nc-icon nc-simple-remove" />
                                  </div>
-                                 
                               </CardTitle>
                            </CardHeader>
                            <CardBody onClick={this.handleViewClickOpen}>
@@ -189,12 +166,10 @@ class Projects extends React.Component {
                         </Card>
                      </Col>
                   ))}
-
                </Row>
             </div >
          </>
       );
    }
 }
-
 export default Projects;
