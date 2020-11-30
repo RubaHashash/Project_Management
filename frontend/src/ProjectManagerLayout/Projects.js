@@ -3,7 +3,7 @@ import axios from "axios";
 import ViewProject from "AdminLayout/ViewProject"
 import AddProject from "AdminLayout/AddProject"
 import EditProject from "AdminLayout/EditProject"
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 // reactstrap components
@@ -128,58 +128,48 @@ class Projects extends React.Component {
       return (
          <>
             <div className="content">
-               <Row>
-                  <div style={{ marginLeft: "85%" }}>
-                     <Button onClick={this.handleClickOpen} >
-                        Add Project
-                     </Button>
 
-                  </div>
-               </Row>
                <Row>
-                  <br></br>
-               </Row>
-               <Row>
-                  {this.state.projects.map(project => ( 
+                  {this.state.projects.map(project => (
                      < Col md="4" key={project.id} >
-                        {console.log('pro',project)}
+                        {console.log('pro', project)}
                         {this.openViewDialog(project)}
                         <Link to={`/viewtasks/${project.id}`}>
-                        < Card className={this.Color(project.actual_start_date, project.actual_end_date)}>
-                           <CardHeader>
-                              <CardTitle tag="h4">
-                                 <div className="d-flex">
-                                    {project.name}
-                                    {this.Edit(project.actual_end_date)}
-                                    {this.openEditDialog(project)}
+                           < Card className={this.Color(project.actual_start_date, project.actual_end_date)}>
+                              <CardHeader>
+                                 <CardTitle tag="h4">
+                                    <div className="d-flex">
+                                       {project.name}
+                                       {this.Edit(project.actual_end_date)}
+                                       {this.openEditDialog(project)}
 
-                                 </div>
-                              </CardTitle>
-                           </CardHeader>
-                           <CardBody onClick={this.handleViewClickOpen}>
-                              <ul className="list-unstyled team-members">
-                                 <li>
-                                    <Row>
-                                       <Col md="2" xs="2">
-                                          <div className="avatar">
-                                             <img
-                                                alt="..."
-                                                className="img-circle img-no-padding img-responsive"
-                                                src={this.Status(project.actual_start_date, project.actual_end_date)}
-                                             />
-                                          </div>
-                                       </Col>
-                                       <Col md="7" xs="7">
-                                          {project.team.name} <br />
-                                          <span className="text-muted">
-                                             <small>{project.project_description}</small>
-                                          </span>
-                                       </Col>
-                                    </Row>
-                                 </li>
-                              </ul>
-                           </CardBody>
-                        </Card>
+                                    </div>
+                                 </CardTitle>
+                              </CardHeader>
+                              <CardBody onClick={this.handleViewClickOpen}>
+                                 <ul className="list-unstyled team-members">
+                                    <li>
+                                       <Row>
+                                          <Col md="2" xs="2">
+                                             <div className="avatar">
+                                                <img
+                                                   alt="..."
+                                                   className="img-circle img-no-padding img-responsive"
+                                                   src={this.Status(project.actual_start_date, project.actual_end_date)}
+                                                />
+                                             </div>
+                                          </Col>
+                                          <Col md="7" xs="7">
+                                             {project.team.name} <br />
+                                             <span className="text-muted">
+                                                <small>{project.project_description}</small>
+                                             </span>
+                                          </Col>
+                                       </Row>
+                                    </li>
+                                 </ul>
+                              </CardBody>
+                           </Card>
                         </Link>
                      </Col>
                   ))}

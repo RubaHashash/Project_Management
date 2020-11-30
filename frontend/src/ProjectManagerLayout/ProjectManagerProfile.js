@@ -18,32 +18,89 @@ import {
 } from "reactstrap";
 
 class ProjectManagerProfile extends React.Component {
-  
-  constructor(props){
-      super(props);
-      this.state={
-        teams:[],
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      teams: [],
+      name: "",
+      email: "",
+      companyName: "",
+      companyId: "",
+      companyAddress: "",
+      companyCity: "",
+      companyCountry: "",
+      companyCreatedAt: "",
+      companyEmail: "",
+      companyDesc: "",
+      companyNum: ""
+    }
   }
-}
-  
+
+  getCompany = () => {
+    axios.defaults.withCredentials = true;
+    axios.get('/api/companies').then((response) => {
+      console.log('company', response.data)
+      return response.data[0]
+    }).then((company) => {
+      // console.log(company)
+      this.setState({
+        companyName: company.name,
+        companyAddress: company.address,
+        companyCity: company.city,
+        companyCountry: company.country,
+        companyCreatedAt: company.date_of_establishment,
+        companyEmail: company.email,
+        companyNum: company.phone_number,
+        companyId: company.id,
+        companyDesc: company.description
+      });
+    });
+  }
+
   componentDidMount() {
-
+    axios.defaults.withCredentials = true;
+    axios.get('/api/user').then((response) => {
+      this.setState({
+        name: response.data.name,
+        email: response.data.email
+      })
+    })
     this.getTeams()
+    this.getCompany();
   }
 
-  getTeams = ()=>{
-    axios.defaults.withCredentials=true;
-       axios.get('/api/teams').then((response)=>{
-          return response.data.teams;
-        }).then((team)=>{
-          console.log("reponse",team);
+  getTeams = () => {
+    axios.defaults.withCredentials = true;
+    axios.get('/api/teams').then((response) => {
+      console.log("teams", response.data);
+      return response.data.data
+    }).then((team) => {
+      // console.log("reponse",team);
 
-          this.setState({
-           teams:team});
-        });
-  } 
+      this.setState({
+        teams: team
+      });
+    });
+  }
+
+  handlechangeall = (event) => {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
+  editProfile = () => {
+    let formData1 = {
+      name: this.state.name,
+      email: this.state.email
+    }
+    axios.defaults.withCredentials = true;
+    axios.post('/api/users/edit', formData1).then((response) => {
+      console.log('update', response);
+    })
+  }
 
   render() {
+
     return (
       <>
         <div className="content">
@@ -64,112 +121,87 @@ class ProjectManagerProfile extends React.Component {
                         className="avatar border-gray"
                         src={require("assets/img/mike.jpg")}
                       />
-                      <h5 className="title">Chet Faker</h5>
+                      {/* <h5 className="title">Admin</h5> */}
                     </a>
-                    <p className="description">@chetfaker</p>
+                    {/* <p className="description">@chetfaker</p> */}
+                    <h3>{this.state.name}</h3>
+                    <p>{this.state.email}</p>
                   </div>
-                  <p className="description text-center">
-                    "I like the way you work it <br />
-                    No diggity <br />I wanna bag it up"
-                  </p>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="button-container">
-                    <Row>
-                      <Col className="ml-auto" lg="3" md="6" xs="6">
-                        <h5>
-                          12 <br />
-                          <small>Files</small>
-                        </h5>
-                      </Col>
-                      <Col className="ml-auto mr-auto" lg="4" md="6" xs="6">
-                        <h5>
-                          2GB <br />
-                          <small>Used</small>
-                        </h5>
-                      </Col>
-                      <Col className="mr-auto" lg="3">
-                        <h5>
-                          24,6$ <br />
-                          <small>Spent</small>
-                        </h5>
-                      </Col>
-                    </Row>
 
-                    <Row>
-                    </Row>
-                    
-                  </div>
-                </CardFooter>
+                </CardBody>
               </Card>
-            
+
             </Col>
-      
+
             <Col md="8">
               <Row>
-              <Card className="card-user">
-                <CardHeader>
-                  <CardTitle tag="h5">Edit Profile</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Form>
-                    <Row>
-                      <Col className="pr-1" md="5">
-                        <FormGroup>
-                          <label>Company (disabled)</label>
-                          <Input
-                            defaultValue="Creative Code Inc."
-                            disabled
-                            placeholder="Company"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="3">
-                        <FormGroup>
-                          <label>Username</label>
-                          <Input
-                            defaultValue="michael23"
-                            placeholder="Username"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-1" md="4">
-                        <FormGroup>
-                          <label htmlFor="exampleInputEmail1">
-                            Email address
+                <Card className="card-user">
+                  <CardHeader>
+                    <CardTitle tag="h5">Edit Profile</CardTitle>
+                  </CardHeader>
+                  <CardBody>
+                    <Form>
+                      <Row>
+                        <Col className="pr-1" md="5">
+                          <FormGroup>
+                            <label>Company (disabled)</label>
+                            <Input
+                              defaultValue={this.state.companyName}
+                              disabled
+                              placeholder="Company"
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col className="px-1" md="3">
+                          <FormGroup>
+                            <label>Username</label>
+                            <Input
+                              defaultValue={this.state.name}
+                              name="name"
+                              onChange={this.handlechangeall}
+                              placeholder="Username"
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col className="pl-1" md="4">
+                          <FormGroup>
+                            <label htmlFor="exampleInputEmail1">
+                              Email address
                           </label>
-                          <Input placeholder="Email" type="email" />
+                            <Input placeholder="Email" defaultValue={this.state.email}
+                              name="email"
+                              onChange={this.handlechangeall} type="email" />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <FormGroup style={{ marginLeft: "20px" }}>
+                          <label>Change profile picture</label>
+                          <Input type="file" accept="image/png, image/jpg" name="image" />
                         </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                    <FormGroup style={{marginLeft:"20px"}}>
-                      <label>Change profile picture</label>
-                    <Input type="file" accept="image/png, image/jpg" name="image" />
-                    </FormGroup>
-                    </Row>
-                    <Row>
-                    <Col className="pl-1" md="4">
-                      <a href="#" style={{marginLeft:"20px"}}> Change Password </a>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <div className="update ml-auto mr-auto">
-                        <Button
-                          className="btn-round"
-                          color="primary"
-                          type="submit"
-                        >
-                          Update 
+                      </Row>
+                      <Row>
+                        <Col className="pl-1" md="4">
+                          <a href="#" style={{ marginLeft: "20px" }}> Change Password </a>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <div className="update ml-auto mr-auto">
+                          <Button
+                            className="btn-round"
+                            color="primary"
+                            type="submit"
+                            onClick={this.editProfile}
+                          >
+                            Update
                         </Button>
-                      </div>
-                    </Row>
-                  </Form>
-                </CardBody>
-              </Card>
+                        </div>
+                      </Row>
+                    </Form>
+                  </CardBody>
+                </Card>
               </Row>
               <Row>
               </Row>
@@ -179,26 +211,30 @@ class ProjectManagerProfile extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <ul className="list-unstyled team-members">
-                    <li>
-                      <Row>
-                        <Col md="2" xs="2">
-                          <div className="avatar">
-                            <img
-                              alt="..."
-                              className="img-circle img-no-padding img-responsive"
-                              src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
-                            />
-                          </div>
-                        </Col>
-                        <Col md="7" xs="7">
-                          DJ Khaled 
-                        </Col>
-                      </Row>
-                    </li>
+                    {this.state.teams ? this.state.teams.map(team => {
+                      return (
+                        <li key={team.id}>
+                          <Row>
+                            <Col md="2" xs="2">
+                              <div className="avatar">
+                                <img
+                                  alt="..."
+                                  className="img-circle img-no-padding img-responsive"
+                                  src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
+                                />
+                              </div>
+                            </Col>
+                            <Col md="7" xs="7">
+                              {team.name} <br />
+                            </Col>
+                          </Row>
+                        </li>
+                      )
+                    }) : null}
                   </ul>
                 </CardBody>
               </Card>
-              
+
             </Col>
 
           </Row>

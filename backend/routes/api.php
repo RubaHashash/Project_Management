@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->get('/users/status', [UserController::class, 'status']);
 Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, 'edit']);
+Route::middleware('auth:sanctum')->get('/employees', [UserController::class, 'getEmployees']);
 
 Route::middleware('auth:sanctum')->post('/companies/add', [CompanyController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/companies/edit', [CompanyController::class, 'update']);

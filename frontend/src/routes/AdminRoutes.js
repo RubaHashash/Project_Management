@@ -27,6 +27,7 @@ import AdminProfile from "AdminLayout/AdminProfile"
 import ManageEmployees from "AdminLayout/ManageEmployees"
 import AdminCharts from "AdminLayout/AdminCharts"
 import Projects from "AdminLayout/Projects"
+import Teams from "AdminLayout/Team"
 import UpgradeToPro from "views/Upgrade.js";
 var Adminroutes = [
   {
@@ -81,6 +82,7 @@ var Adminroutes = [
   //   component: Notifications,
   //   layout: "/admin",
   // },
+
 
 
   // {
