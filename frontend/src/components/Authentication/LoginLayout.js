@@ -37,6 +37,7 @@ class Login extends React.Component {
   }
   getuser=()=>{
     axios.defaults.withCredentials=true;
+    this.props.history.push('/admin');
      axios.get('/api/users/status').then(response=>{
     console.log(response.data.role)
     if(response.data.role==="admin"){

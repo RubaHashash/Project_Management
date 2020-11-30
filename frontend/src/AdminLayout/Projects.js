@@ -29,7 +29,7 @@ class Projects extends React.Component {
           setAddOpen: false,
          setViewOpen: false,
          setEditOpen: false,
-         project
+         project:""
 
       }
    }
@@ -118,15 +118,15 @@ class Projects extends React.Component {
          return <EditProject openD={this.state.setEditOpen} closeD={this.closeEditDialog} project={project} />
       }
    }
-   DeleteProject =(e)=>{
-      // console.log(project.id)
-      e.preventDefault();
-      let Projectid={ id: project.id}
-      axios.defaults.withCredentials = true;
-      axios.post("/api/projects/delete",Projectid).then(response => {
-         console.log(response);
-   })
-   }
+   // DeleteProject =(e,project)=>{
+   //    // console.log(project.id)
+   //    e.preventDefault();
+   //    let Projectid={ id: project.id}
+   //    axios.defaults.withCredentials = true;
+   //    axios.post("/api/projects/delete",Projectid).then(response => {
+   //       console.log(response);
+   // })
+   // }
 
    render() {
       if (this.state.setAddOpen) {
@@ -159,7 +159,7 @@ class Projects extends React.Component {
                                     {project.name}
                                     {this.Edit(project.actual_end_date)}
                                     {this.openEditDialog(project)}
-                                    <i  onClick={this.DeleteProject(project)} className="nc-icon nc-simple-remove" />
+                                    {/* <i  onClick={this.DeleteProject(project)} className="nc-icon nc-simple-remove" /> */}
                                  </div>
                                  
                               </CardTitle>
