@@ -72,8 +72,8 @@ class CompanyForm extends React.Component {
       axios.defaults.withCredentials = true;
 
       axios.post("/api/companies/add", this.state).then(res => {
-         console.log(res);
-         this.props.history.push('/admin');
+         // console.log(res);
+         this.props.history.push('/admin/dashboard');
 
       }).catch(error => {
          console.log(error);

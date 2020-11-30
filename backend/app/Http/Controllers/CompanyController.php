@@ -64,7 +64,14 @@ class CompanyController extends Controller
 
         $company->save();
 
-        $this->UserController->makeAdmin($company->id);
+        //$this->UserController->makeAdmin($company->id);
+        $admin = User::find(Auth::id());
+
+        $admin->isManager = true; //ye3ne admin
+
+        $admin->company_id = $company->id;
+
+        $admin->save();
 
         return json_encode($company);
     }

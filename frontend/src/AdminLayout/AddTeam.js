@@ -21,7 +21,7 @@ import {
    Col,
 } from "reactstrap";
 
-class AddProject extends React.Component {
+class AddTeam extends React.Component {
 
    constructor(props) {
       super(props);
@@ -29,14 +29,8 @@ class AddProject extends React.Component {
          open: false,
          setOpen: false,
          name: "",
-         planned_start_date: "",
-         planned_end_date: "",
-         project_description: "",
-         planned_budget: "",
-         team_id: "",
-         company_id:"",
-         teams:[],
-         team:""
+         company_id: 0,
+         manager_id: 0
 
       }
    }
@@ -69,9 +63,11 @@ class AddProject extends React.Component {
       e.preventDefault();
       axios.defaults.withCredentials = true;
       console.log(this.state)
-      axios.post("/api/projects/add", this.state).then(response => {
+      axios.post("/api/teams/add", this.state).then(response => {
          console.log(response);
       });
+      this.props.closeD();
+
    };
    getUser=()=>{
        axios.defaults.withCredentials = true;
@@ -82,7 +78,7 @@ class AddProject extends React.Component {
             company_id:response.data.company_id
          })
    })
-}
+   }
    handleClose = () => {
       this.setState({
          setOpen: false
@@ -94,70 +90,43 @@ class AddProject extends React.Component {
       return (
          <>
             <Dialog open={this.props.openD} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-               <DialogTitle id="form-dialog-title">Add Project</DialogTitle>
+               <DialogTitle id="form-dialog-title">Add Team</DialogTitle>
                <DialogContent>
 
                   <TextField
                      autoFocus
                      margin="dense"
                      name="name"
-                     label="Project name.."
+                     label="Team name.."
                      type="text"
                      onChange={this.handleChange}
                      fullWidth
                   />
-                   <select  
-                     name="team_id" 
+              {/*}     <select  
+                     name="Manager_id" 
                       value={this.state.team}
                       label="Choose a team"
                      onChange={this.handleChange}
                      >
                      <option value="">team</option>
                       {
-                        this.state.teams.map((item)=>{
+                        this.state.users.map((user)=>{
                         return <option value={item.id}
                          key={item.id} >{item.name}</option>
                          })
                        }
-                    </select>
+                     </select> */}
+
                   <TextField
                      autoFocus
                      margin="dense"
-                     name="project_description"
-                     label="Description"
+                     name="manager_id"
+                     label="Manager id"
                      type="text"
                      onChange={this.handleChange}
                      fullWidth
-                  />
-                  <TextField
-                     autoFocus
-                     margin="dense"
-                     name="planned_start_date"
-                     label="Planned start date"
-                     type="date"
-                     onChange={this.handleChange}
-                     fullWidth
-                  />
-                  <TextField
-                     autoFocus
-                     margin="dense"
-                     name="planned_end_date"
-                     label="Planned end date"
-                     type="date"
-                     onChange={this.handleChange}
-                     fullWidth
-                  />
+                  /> 
                   
-                  <TextField
-                     autoFocus
-                     margin="dense"
-                     name="planned_budget"
-                     label="Planned budget"
-                     type="number"
-                     onChange={this.handleChange}
-                     fullWidth
-                  />
-
                </DialogContent>
                <DialogActions>
                   <Button onClick={this.handleClose} color="primary">
@@ -175,4 +144,4 @@ class AddProject extends React.Component {
 
 }
 
-export default AddProject
+export default AddTeam

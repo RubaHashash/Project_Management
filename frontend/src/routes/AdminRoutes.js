@@ -27,6 +27,7 @@ import AdminProfile from "AdminLayout/AdminProfile"
 import ManageEmployees from "AdminLayout/ManageEmployees"
 import AdminCharts from "AdminLayout/AdminCharts"
 import Projects from "AdminLayout/Projects"
+import Teams from "AdminLayout/Team"
 import UpgradeToPro from "views/Upgrade.js";
 var Adminroutes = [
   {
@@ -68,10 +69,10 @@ var Adminroutes = [
   // },
 
   {
-    path: "/tables",
-    name: "Projects",
+    path: "/teams",
+    name: "Teams",
     icon: "nc-icon nc-tile-56",
-    component: TableList,
+    component: Teams,
     layout: "/admin",
   },
   {
