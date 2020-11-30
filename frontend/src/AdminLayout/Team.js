@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
-import ViewProject from "AdminLayout/ViewProject"
-import AddProject from "AdminLayout/AddProject"
-import EditProject from "AdminLayout/EditProject"
+import ViewTeam from "AdminLayout/ViewTeam"
+import AddTeam from "AdminLayout/AddTeam"
+import {Link} from 'react-router-dom';
 
 
 // reactstrap components
@@ -20,13 +20,13 @@ import {
    Col,
 } from "reactstrap";
 
-class Projects extends React.Component {
+class Teams extends React.Component {
 
    constructor(props) {
       super(props);
       this.state = {
-         projects: [],
-          setAddOpen: false,
+         teams: [],
+         setAddOpen: false,
          setViewOpen: false,
          setEditOpen: false
 
@@ -34,53 +34,26 @@ class Projects extends React.Component {
    }
 
    componentDidMount() {
-      this.getProjects()
+      this.getTeams()
    }
 
-   getProjects = () => {
+   getTeams = () => {
       axios.defaults.withCredentials = true;
-      axios.get('/api/projects').then((response) => {
-         // console.log("response", response.data.data);
+      axios.get('/api/teams').then((response) => {
+         console.log("Teams DB", response);
 
          this.setState({
-            projects: response.data.data
+            teams: response.data.data
          });
       });
    }
-
-   Status = (start, end) => {
-      let src;
-      if (end) {
-         src = require("assets/img/done.png")
-      }
-      else if (start !== null && end === null) {
-         src = require("assets/img/inProgress.png")
-      }
-      else if (start === null) {
-         src = require("assets/img/loading.png")
-      }
-      return src
-   }
-   Color = (start, end) => {
-      //console.log('start',start,'end',end)
-      let color;
-      if (end) {
-         color = "bg-success"
-      }
-      else if (start !== null && end === null) {
-         color = "bg-warning"
-      }
-      else if (start === null) {
-         color = "bg-danger"
-      }
-      return color
-   }
-
+  
    handleClickOpen = () => {
       this.setState({ setAddOpen: true })
    }
 
    closeDialog = () => {
+      this.getTeams();
       this.setState({ setAddOpen: false });
    };
 
@@ -100,11 +73,7 @@ class Projects extends React.Component {
       this.setState({ setEditOpen: false });
    };
 
-   openViewDialog = (project) => {
-      if (this.state.setViewOpen) {
-         return <ViewProject openD={this.state.setViewOpen} closeD={this.closeViewDialog} project={project} />
-      }
-   }
+   
 
    Edit = (end_date) => {
       if (end_date === null)
@@ -112,24 +81,25 @@ class Projects extends React.Component {
 
    }
 
-   openEditDialog = (project) => {
-      if (this.state.setEditOpen) {
-         return <EditProject openD={this.state.setEditOpen} closeD={this.closeEditDialog} project={project} />
-      }
-   }
-   DeleteProject =(id)=>{
+   DeleteTeam =(id)=>{
       // console.log(project.id)
       //e.preventDefault();
-      let Projectid={ id: id}
-      axios.defaults.withCredentials = true;
-      axios.post("/api/projects/delete",Projectid).then(response => {
-         console.log(response);
-   })
+   //   / let TeamId={ id: id}
+   //    axios.defaults.withCredentials = true;
+   //    axios.post("/api/teams/delete",TeamId).then(response => {
+   //       console.log(response);
+   // })
+   }
+
+   openViewDialog = (team) => {
+      if (this.state.setViewOpen) {
+         return <ViewTeam openD={this.state.setViewOpen} closeD={this.closeViewDialog} team={team} />
+      }
    }
 
    render() {
       if (this.state.setAddOpen) {
-         return <AddProject openD={this.state.setAddOpen} closeD={this.closeDialog} />
+         return <AddTeam openD={this.state.setAddOpen} closeD={this.closeDialog} />
       }
 
       return (
@@ -138,7 +108,7 @@ class Projects extends React.Component {
                <Row>
                   <div style={{ marginLeft: "85%" }}>
                      <Button onClick={this.handleClickOpen} >
-                        Add Project
+                        Add Team
                      </Button>
 
                   </div>
@@ -147,20 +117,17 @@ class Projects extends React.Component {
                   <br></br>
                </Row>
                <Row>
-                  {this.state.projects.map(project => ( 
-                     < Col md="4" key={project.id} >
-                        {/* {console.log('pro',project)} */}
-                        {this.openViewDialog(project)}
-                        < Card className={this.Color(project.actual_start_date, project.actual_end_date)}>
+                  {this.state.teams.map(team => ( 
+
+                        < Col md="4" key={team.id}  style={{ width:"40%" }}>
+                        <Link key={team.id} to={`/viewteam/${team.id}`}>
+
+                        < Card className="bg-info ">
                            <CardHeader>
                               <CardTitle tag="h4">
                                  <div className="d-flex">
-                                    {project.name}
-                                    {this.Edit(project.actual_end_date)}
-                                    {this.openEditDialog(project)}
-                                    <i  onClick={this.DeleteProject(project.id)} className="nc-icon nc-simple-remove" />
+                                 {team.name}
                                  </div>
-                                 
                               </CardTitle>
                            </CardHeader>
                            <CardBody onClick={this.handleViewClickOpen}>
@@ -172,21 +139,20 @@ class Projects extends React.Component {
                                              <img
                                                 alt="..."
                                                 className="img-circle img-no-padding img-responsive"
-                                                src={this.Status(project.actual_start_date, project.actual_end_date)}
+                                                //src={this.Status(project.actual_start_date, project.actual_end_date)}
                                              />
                                           </div>
                                        </Col>
                                        <Col md="7" xs="7">
-                                          {project.team.name} <br />
-                                          <span className="text-muted">
-                                             <small>{project.project_description}</small>
-                                          </span>
+                                          {team.name} <br />
                                        </Col>
                                     </Row>
                                  </li>
                               </ul>
                            </CardBody>
                         </Card>
+                        </Link>
+
                      </Col>
                   ))}
 
@@ -197,4 +163,4 @@ class Projects extends React.Component {
    }
 }
 
-export default Projects;
+export default Teams;
