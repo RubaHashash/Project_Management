@@ -50,4 +50,9 @@ class UserController extends Controller
 
         return json_encode($user);
     }
+
+    public function getEmployees(){
+        $employee = User::where('company_id','=',Auth::user()->company_id)->get();
+        return json_encode($employee);
+    }
 }

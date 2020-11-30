@@ -1,23 +1,8 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
+import axios from "axios";
 import  EditEmployee from "./EditEmployee";
+import Select from '@material-ui/core/Select';
+
 // reactstrap components
 import {
   Card,
@@ -34,8 +19,28 @@ class ManageEmployee extends React.Component {
     super(props);
     this.state={
       setOpen: false,
+      employee_list: [],
+      teams:[],
+
     }
   }
+
+
+  componentDidMount(){
+    this.getEmployee();
+
+  }
+
+  getEmployee = ()=>{
+    axios.get('/api/employees')
+    .then(response=>{
+      console.log(response);
+        this.setState({
+            employee_list:response.data,
+        });
+    });
+}
+
 
   handleClickOpen = () => {
     this.setState({setOpen:true});
@@ -77,7 +82,8 @@ class ManageEmployee extends React.Component {
                         <td>Oud-Turnhout</td>
                         <td>Oud-Turnhout</td>
                         <td>
-                            <i className="nc-icon nc-ruler-pencil" style={{marginLeft: "10px", marginRight: "20px"}}/>
+                            <i className="nc-icon nc-ruler-pencil" style={{marginLeft: "10px", marginRight: "20px"}}
+                                  onClick={this.handleClickOpen}/>
                             <i className="nc-icon nc-simple-remove" />
                         </td>
                       </tr>
@@ -106,17 +112,28 @@ class ManageEmployee extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Dakota Rice</td>
-                        <td>Niger</td>
-                        <td>Oud-Turnhout</td>
-                        <td>Oud-Turnhout</td>
-                        <td>
-                            <a className="nc-icon nc-ruler-pencil" style={{marginLeft: "10px", marginRight: "20px"}}
-                              onClick={this.handleClickOpen}/>
-                            <a className="nc-icon nc-simple-remove" />
-                        </td>
-                      </tr>
+                          
+                          
+                    {
+                        this.state.employee_list.map(emp=>{
+                        return(
+                            <tr key={emp.id}>
+                                    <td>{emp.name}</td>
+                                    <td>{emp.email}</td>
+                                    <td>{emp.team_id}</td>
+                                    <td>{emp.team_id}</td>
+
+                                    <td>
+                                    <a className="nc-icon nc-ruler-pencil" style={{marginLeft: "10px", marginRight: "20px"}}
+                                          onClick={this.handleClickOpen}/>
+                                    <a className="nc-icon nc-simple-remove" />
+                                    </td>
+                            </tr>
+                        )
+
+                        })
+
+                        }
                     </tbody>
                   </Table>
                 </CardBody>
