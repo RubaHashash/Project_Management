@@ -127,7 +127,7 @@ class Projects extends React.Component {
                <Row>
                   {this.state.projects.map(project => (
                      < Col md="4" key={project.id} >
-                        {/* {console.log('pro',project)} */}
+
                         {this.openViewDialog(project)}
                         < Card className={this.Color(project.actual_start_date, project.actual_end_date)}>
                            <CardHeader>

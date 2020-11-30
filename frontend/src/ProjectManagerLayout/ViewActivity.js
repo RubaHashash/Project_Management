@@ -6,7 +6,7 @@ import { Route, Switch } from "react-router-dom";
 
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import ProjectManagerRoutes from "routes/ProjectManagerRoutes";
 // reactstrap components
@@ -25,30 +25,30 @@ import {
 } from "reactstrap";
 
 class ViewActivity extends React.Component {
-  
-  constructor(props){
-      super(props);
-      this.state={
-        activities:[]
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      activities: []
+    }
   }
-}
-  
+
   componentDidMount() {
     this.getActivities();
   }
 
-  getActivities = () =>{
+  getActivities = () => {
     console.log('/api/milestones/'.concat(this.props.match.params.id));
     axios.get('/api/activities/'.concat(this.props.match.params.id))
-    .then(response=>{
-      console.log("khbdckhbsadhkcbkdsbckhadwbcfkdawb",response.data);
-      this.setState({activities:response.data.data});
-    });
+      .then(response => {
+        console.log("khbdckhbsadhkcbkdsbckhadwbcfkdawb", response.data);
+        this.setState({ activities: response.data.data });
+      });
   }
   render() {
     return (
       <>
-      <Sidebar
+        <Sidebar
           {...this.props}
           routes={ProjectManagerRoutes}
           bgColor={this.state.backgroundColor}
@@ -67,49 +67,45 @@ class ViewActivity extends React.Component {
               );
             })}
           </Switch>
-        
 
-        <div className="content">
-          <Row>
 
-      
-            <Col md="12">
-              <Row >
-              {this.state.activities.map(activity => ( 
-                    <Col  key={activity.id}>
-                    <Link to={`/viewactivities/${activity.id}`}>
-              <Card className="card-user"  style={{ marginLeft: "30px", width: "200px", height: "200px", overflow: "hidden"}}>
-                <CardHeader>
-                  <CardTitle tag="h3">{activity.name}</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Form>
-                    <Row>
-                    
-                    <Col className="pl-1" md="12">
-                        <FormGroup>
-                          <label>
-                            {activity.description}
-                          </label>
-                        </FormGroup>
-                      </Col>
-                     
-                    </Row>
-                  </Form>
-                </CardBody>
-              </Card>
-              </Link>
-                      </Col>
-                    ))}
-              </Row>
-              <Row>
-              </Row>
-              
-              
-            </Col>
+          <div className="content">
+            <Row>
+              <Col >
+                <Row >
+                  {this.state.activities.map(activity => (
+                    <Col key={activity.id}>
 
-          </Row>
-        </div>
+                      <Card  >
+                        <CardHeader>
+                          <CardTitle tag="h3">{activity.name}</CardTitle>
+                        </CardHeader>
+                        <CardBody>
+                          <Form>
+                            <Row>
+                              <Col >
+                                <FormGroup>
+                                  <label>
+                                    {activity.description}
+                                  </label>
+                                </FormGroup>
+                              </Col>
+                            </Row>
+                          </Form>
+                        </CardBody>
+                      </Card>
+
+                    </Col>
+                  ))}
+                </Row>
+                <Row>
+                </Row>
+
+
+              </Col>
+
+            </Row>
+          </div>
         </div>
       </>
     );
