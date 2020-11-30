@@ -34,6 +34,7 @@ import CompanyForm from "components/CompanyForm.js";
 import ProjectManagerDashboard from "ProjectManagerLayout/ProjectManagerDashboard";
 import ViewActivity from "ProjectManagerLayout/ViewActivity";
 import ViewTasks from "ProjectManagerLayout/ViewTasks";
+import ViewTeam from "AdminLayout/ViewTeam";
 
 const hist = createBrowserHistory();
 
@@ -55,6 +56,8 @@ ReactDOM.render(
       <Route path="/viewtasks/:id" render={(props) => <ViewTasks {...props} />} />
 
       <Route path="/viewactivities/:id" render={(props) => <ViewActivity {...props} />} />
+
+      <Route path="/viewteam/:id" render={(props) => <ViewTeam {...props} />} />
 
       {/* <Redirect to="/register" /> */}
     </Switch>
